@@ -60,8 +60,10 @@
 </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   name: 'App',
   data () {
     return {
@@ -94,7 +96,7 @@ export default {
         }, 60000);
     }, secondsRemainingInMinute);
   }
-}
+})
 </script>
 
 <style>
