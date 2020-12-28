@@ -76,8 +76,8 @@
 <script lang="ts">
 // eslint-disable-next-line no-unused-vars
 import { defineComponent, computed, ref, onBeforeUpdate, Ref, nextTick } from 'vue';
-import { todos, loadTodos, addTodo, archiveTodos } from './state/todos';
-import Todo from './components/Todo.vue';
+import { todos, loadTodos, addTodo, archiveTodos } from '../state/todos';
+import Todo from '../components/Todo.vue';
 
 export default defineComponent({
   name: 'App',

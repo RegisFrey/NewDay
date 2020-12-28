@@ -31,14 +31,14 @@ export default defineComponent({
         title: String,
     },
     methods: {
-        changeChecked (event) {
-          this.$emit('update:completed', event.target.checked ? new Date() : false)
+        changeChecked (event: InputEvent) {
+          this.$emit('update:completed', (event.target as HTMLInputElement).checked ? new Date() : false)
         },
-        changeTitle (event) {
-          this.$emit('update:title', event.target.value)
+        changeTitle (event: InputEvent) {
+          this.$emit('update:title', (event.target as HTMLInputElement).value)
         },
         focusInput () {
-          this.$refs.todoInput.focus();
+          (this.$refs.todoInput as HTMLInputElement).focus();
         }
     }
 });

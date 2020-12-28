@@ -1,0 +1,16 @@
+{
+  "manifest_version": 2,
+  "name": "Splash Pad",
+  "homepage_url": "http://regisfrey.com/projects/splashpad",
+  "description": "A useful notepad in place of the default new tab page.",
+  "default_locale": "en",
+  "permissions": [],
+  "icons": {
+    "16": "icons/16.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  },
+  "chrome_url_overrides": {
+    "newtab": "override.html"
+  }
+}
