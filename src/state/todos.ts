@@ -8,7 +8,11 @@ interface Todo {
     completed: false|Date;
 }
 
-export const todos = useStorageValue<Todo[]>('todos', [])
+export let todos: Ref<Todo[]> = ref([])
+
+export async function loadTodos () {
+    todos = await useStorageValue<Todo[]>('todos', [])
+}
 
 export function emptyTodo () : Todo {
     return { title: "", created: new Date(), completed: false };

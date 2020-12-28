@@ -76,16 +76,36 @@
 <script lang="ts">
 // eslint-disable-next-line no-unused-vars
 import { defineComponent, computed, ref, onBeforeUpdate, Ref, nextTick } from 'vue';
-import { todos, addTodo, archiveTodos } from './state/todos';
+import { todos, loadTodos, addTodo, archiveTodos } from './state/todos';
 import Todo from './components/Todo.vue';
 
 export default defineComponent({
   name: 'App',
   components: { Todo },
-  setup () {
-    // TODOS
-    archiveTodos()
+  async setup () {
+    // TIME
+    const now = ref(new Date());
 
+    const day = computed(() => new Intl.DateTimeFormat('en-US', { weekday: 'long'}).format(now.value));
+    const time = computed(() => new Intl.DateTimeFormat('en-US', { hour: "numeric", minute: "numeric" }).format(now.value));
+    // @ts-ignore: https://github.com/microsoft/TypeScript/issues/38266
+    const date = computed(() => new Intl.DateTimeFormat('en-US', { dateStyle: "long" }).format(now.value));
+
+    /* Setup update loop on the minute */
+    const secondsRemainingInMinute = (60 - now.value.getSeconds()) * 1000;
+
+    function updateTime () {
+      now.value = new Date();
+    }
+
+    setTimeout(() => {
+        updateTime();
+        setInterval(() => {
+          updateTime();
+        }, 60000);
+    }, secondsRemainingInMinute);
+    
+    // TODOS
     const newTodoCompleted = ref(false);
     const newTodoEmptyTitle = ref("");
     const newTodoForceUpdate = ref(0);
@@ -120,27 +140,8 @@ export default defineComponent({
       // could use $forceUpdate instead?
     }
 
-    // TIME
-    const now = ref(new Date());
-
-    const day = computed(() => new Intl.DateTimeFormat('en-US', { weekday: 'long'}).format(now.value));
-    const time = computed(() => new Intl.DateTimeFormat('en-US', { hour: "numeric", minute: "numeric" }).format(now.value));
-  // @ts-ignore: https://github.com/microsoft/TypeScript/issues/38266
-    const date = computed(() => new Intl.DateTimeFormat('en-US', { dateStyle: "long" }).format(now.value));
-
-    /* Setup update loop on the minute */
-    const secondsRemainingInMinute = (60 - now.value.getSeconds()) * 1000;
-
-    function updateTime () {
-      now.value = new Date();
-    }
-
-    setTimeout(() => {
-        updateTime();
-        setInterval(() => {
-          updateTime();
-        }, 60000);
-    }, secondsRemainingInMinute);
+    await loadTodos()
+    archiveTodos()
 
     return {
       // todos
