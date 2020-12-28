@@ -16,3 +16,13 @@ export function daysBetween(first: Date, second: Date) {
     // Round down.
     return Math.floor(days);
 }
+
+/* https://mariusschulz.com/blog/deserializing-json-strings-as-javascript-date-objects */
+const dateFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
+
+export function jsonDateReviver (_key: string, value: any) {
+  if (typeof value === "string" && dateFormat.test(value)) {
+    return new Date(value);
+  }
+  return value;
+}

@@ -1,5 +1,6 @@
 import { computed, Ref, ref } from 'vue'
 import { daysBetween } from '../helpers/dates';
+import { useStorageValue } from '../helpers/storage';
 
 interface Todo {
     title: string,
@@ -7,7 +8,7 @@ interface Todo {
     completed: false|Date;
 }
 
-export const todos: Ref<Array<Todo>> = ref([])
+export const todos = useStorageValue<Todo[]>('todos', [])
 
 export function emptyTodo () : Todo {
     return { title: "", created: new Date(), completed: false };

@@ -32,11 +32,9 @@ export default defineComponent({
     },
     methods: {
         changeChecked (event) {
-          console.log('changeChecked', event.target.checked);
           this.$emit('update:completed', event.target.checked ? new Date() : false)
         },
         changeTitle (event) {
-          console.log('changeTitle', event.target.value);
           this.$emit('update:title', event.target.value)
         },
         focusInput () {
