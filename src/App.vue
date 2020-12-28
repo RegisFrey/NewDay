@@ -38,13 +38,26 @@
 
     <div class="splash-pad__todos">
       <h2>Todo</h2>
-      <label class="splash-pad__todo"><input type="checkbox" /> Something to do</label>
-      <label class="splash-pad__todo--checked"><input type="checkbox" checked /> Another thing done</label>
-      <!-- TODO: Add items -->
-      <!-- TODO: Complete items -->
+
+      <Todo
+        v-for="(todo, index) in todos"
+        :key="'todo-' + index"
+        :completed="(todo.completed !== false)"
+        @update:completed="todo.completed = $event"
+        v-model:title="todo.title"
+        :ref="el => { if (el) todoElements[index] = el }"
+        />
+
+      
+      <Todo
+        :completed="newTodoCompleted"
+        @update:completed="dontCompletePlaceholderTodo"
+        :title="newTodoEmptyTitle"
+        @update:title="newTodo"
+        :key="'todo-new-' + newTodoForceUpdate"
+        />
       <!-- TODO: Reorder items? -->
       <!-- TODO: Delete items? -->
-      <!-- TODO: Complete items are removed next day (after 3 am) -->
       <!-- TODO: Persistence -->
     </div>
 
@@ -61,41 +74,83 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+// eslint-disable-next-line no-unused-vars
+import { defineComponent, computed, ref, onBeforeUpdate, Ref, nextTick } from 'vue';
+import { todos, addTodo, archiveTodos } from './state/todos';
+import Todo from './components/Todo.vue';
 
 export default defineComponent({
   name: 'App',
-  data () {
-    return {
-      now: new Date()
+  components: { Todo },
+  setup () {
+    // TODOS
+    archiveTodos()
+
+    const newTodoCompleted = ref(false);
+    const newTodoEmptyTitle = ref("");
+    const newTodoForceUpdate = ref(0);
+    const todoElements: Ref<Array<typeof Todo>> = ref([])
+    
+    onBeforeUpdate(() => {
+        todoElements.value = []
+    })
+
+    function newTodo (title: string) {
+      // add todo with current event value
+      addTodo({
+        title,
+        created: new Date(),
+        completed: false,
+      })
+      // set new todo values back to defaults
+      newTodoCompleted.value = false
+      newTodoEmptyTitle.value = ""
+      newTodoForceUpdate.value = Math.random() 
+      // focus on just added todo text input in ui
+      nextTick(() => {
+        const lastTodoIndex = todos.value.length - 1;
+        const lastTodoElement = todoElements.value[lastTodoIndex];
+        lastTodoElement.focusInput()
+      })
     }
-  },
-  computed: {
-    day () {
-      return new Intl.DateTimeFormat('en-US', { weekday: 'long'}).format(this.now);
-    },
-    time () {
-      return new Intl.DateTimeFormat('en-US', { hour: "numeric", minute: "numeric" }).format(this.now);
-    },
-    date () {
-      return new Intl.DateTimeFormat('en-US', { dateStyle: "long" }).format(this.now);
-    },
-  },
-  methods: {
-    updateTime () {
-      this.now = new Date();
+
+    function dontCompletePlaceholderTodo () {
+      newTodoCompleted.value = false
+      newTodoForceUpdate.value = Math.random() 
+      // could use $forceUpdate instead?
     }
-  },
-  mounted () {
-    const secondsRemainingInMinute = (60 - this.now.getSeconds()) * 1000;
+
+    // TIME
+    const now = ref(new Date());
+
+    const day = computed(() => new Intl.DateTimeFormat('en-US', { weekday: 'long'}).format(now.value));
+    const time = computed(() => new Intl.DateTimeFormat('en-US', { hour: "numeric", minute: "numeric" }).format(now.value));
+  // @ts-ignore: https://github.com/microsoft/TypeScript/issues/38266
+    const date = computed(() => new Intl.DateTimeFormat('en-US', { dateStyle: "long" }).format(now.value));
+
+    /* Setup update loop on the minute */
+    const secondsRemainingInMinute = (60 - now.value.getSeconds()) * 1000;
+
+    function updateTime () {
+      now.value = new Date();
+    }
 
     setTimeout(() => {
-        this.updateTime();
+        updateTime();
         setInterval(() => {
-          this.updateTime();
+          updateTime();
         }, 60000);
     }, secondsRemainingInMinute);
-  }
+
+    return {
+      // todos
+      todos, todoElements,
+      newTodo, dontCompletePlaceholderTodo,
+      newTodoCompleted, newTodoEmptyTitle, newTodoForceUpdate,
+      // time and date
+      now, day, time, date, 
+    }
+  },
 })
 </script>
 
@@ -145,7 +200,7 @@ html, body, #app, .splash-pad {
   display: flex;
   flex-direction: column;
   padding: 10px 20px;
-  flex: 2;
+  flex: 3;
 }
 
 .splash-pad__meeting__time {
@@ -159,20 +214,11 @@ html, body, #app, .splash-pad {
   flex: 3;
 }
 
-.splash-pad__todo {
-  display: block;
-}
-
-.splash-pad__todo--checked {
-  text-decoration: line-through;
-  color: var(--color-text-subtle);
-}
-
 .splash-pad__notes {
   display: flex;
   flex-direction: column;
   padding: 10px 20px;
-  flex: 5;
+  flex: 7;
 }
 
 .splash-pad__notes > textarea {
@@ -224,8 +270,7 @@ h2 {
    margin-bottom: 16px;
 }
 
- .splash-pad__calendar__entry--now {
-   color: rgb(249, 97, 80);
-   
- }
+.splash-pad__calendar__entry--now {
+  color: rgb(249, 97, 80); 
+}
 </style>
