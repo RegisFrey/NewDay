@@ -1,171 +1,197 @@
 <template>
-<div class="splash-pad">
-  <header class="splash-pad__header">
-    <div class="splash-pad__today">
-      <h1>
-        <span class="splash-pad__hour">{{ time }}</span>
-        <span class="splash-pad__day">{{ day }}</span>
-        <span class="splash-pad__date">{{ date }}</span>
-        <!-- December 26th -->
-      </h1>
-    </div>
-  </header>
+  <div class="splash-pad">
+    <header class="splash-pad__header">
+      <div class="splash-pad__today">
+        <h1>
+          <span class="splash-pad__hour">{{ time }}</span>
+          <span class="splash-pad__day">{{ day }}</span>
+          <span class="splash-pad__date">{{ date }}</span>
+        </h1>
+      </div>
+    </header>
 
-  <div class="splash-pad__content">
-    <div class="splash-pad__calendar">
-      <h2>Today</h2>
-      <!--
+    <div class="splash-pad__content">
+      <div class="splash-pad__calendar">
+        <h2>Today</h2>
+        <!--
       TODO: GCal integration
       <a href="#">Login with Google for Calendar</a>
       -->
-      <div class="splash-pad__calendar__entry splash-pad__calendar__entry--now">
-      <b class="splash-pad__meeting__time">2:10 PM</b>
-      Meeting Name Something
+        <div
+          class="splash-pad__calendar__entry splash-pad__calendar__entry--now"
+        >
+          <b class="splash-pad__meeting__time">2:10 PM</b>
+          Meeting Name Something
+        </div>
+
+        <div class="splash-pad__calendar__entry">
+          <b class="splash-pad__meeting__time">3:20 PM</b>
+          Meeting Name Something
+        </div>
+
+        <div class="splash-pad__calendar__entry">
+          <b class="splash-pad__meeting__time">5:00 PM</b>
+          Other Event
+        </div>
       </div>
 
-      <div class="splash-pad__calendar__entry">
-      <b class="splash-pad__meeting__time">3:20 PM</b>
-      Meeting Name Something
-      </div>
+      <div class="splash-pad__todos">
+        <h2>Todo</h2>
 
-      <div class="splash-pad__calendar__entry">
-      <b class="splash-pad__meeting__time">5:00 PM</b>
-      Other Event
-      </div>
-
-
-    </div>
-
-    <div class="splash-pad__todos">
-      <h2>Todo</h2>
-
-      <Todo
-        v-for="(todo, index) in todos"
-        :key="'todo-' + index"
-        :completed="(todo.completed !== false)"
-        @update:completed="todo.completed = $event"
-        v-model:title="todo.title"
-        :ref="el => { if (el) todoElements[index] = el }"
+        <Todo
+          v-for="(todo, index) in todos"
+          :key="'todo-' + index"
+          :completed="todo.completed !== false"
+          @update:completed="todo.completed = $event"
+          v-model:title="todo.title"
+          :ref="
+            (el) => {
+              if (el) todoElements[index] = el;
+            }
+          "
         />
 
-      
-      <Todo
-        :completed="newTodoCompleted"
-        @update:completed="dontCompletePlaceholderTodo"
-        :title="newTodoEmptyTitle"
-        @update:title="newTodo"
-        :key="'todo-new-' + newTodoForceUpdate"
+        <Todo
+          :completed="newTodoCompleted"
+          @update:completed="dontCompletePlaceholderTodo"
+          :title="newTodoEmptyTitle"
+          @update:title="newTodo"
+          :key="'todo-new-' + newTodoForceUpdate"
         />
-      <!-- TODO: Reorder items? -->
-      <!-- TODO: Delete items? -->
-      <!-- TODO: Persistence -->
-    </div>
+        <!-- TODO: Reorder items? -->
+        <!-- TODO: Delete items? -->
+        <!-- TODO: Persistence -->
+      </div>
 
-    <div class="splash-pad__notes">
-      <h2>Notes</h2>
-      <textarea placeholder="Type notes">
-
-      </textarea>
-      <!-- TODO: Markdown or TipTap editor -->
-      <!-- TODO: Persistence -->
+      <div class="splash-pad__notes">
+        <h2>Notes</h2>
+        <textarea placeholder="Type notes"> </textarea>
+        <!-- TODO: Markdown or TipTap editor -->
+        <!-- TODO: Persistence -->
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script lang="ts">
 // eslint-disable-next-line no-unused-vars
-import { defineComponent, computed, ref, onBeforeUpdate, Ref, nextTick } from 'vue';
+import {
+  defineComponent,
+  computed,
+  ref,
+  onBeforeUpdate,
+  Ref,
+  nextTick,
+} from 'vue';
 import { todos, loadTodos, addTodo, archiveTodos } from './state/todos';
 import Todo from './components/Todo.vue';
 
 export default defineComponent({
   name: 'App',
   components: { Todo },
-  setup () {
+  setup() {
     // TIME
     const now = ref(new Date());
 
-    const day = computed(() => new Intl.DateTimeFormat('en-US', { weekday: 'long'}).format(now.value));
-    const time = computed(() => new Intl.DateTimeFormat('en-US', { hour: "numeric", minute: "numeric" }).format(now.value));
+    const day = computed(() =>
+      new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(now.value),
+    );
+    const time = computed(() =>
+      new Intl.DateTimeFormat('en-US', {
+        hour: 'numeric',
+        minute: 'numeric',
+      }).format(now.value),
+    );
     // @ts-ignore: https://github.com/microsoft/TypeScript/issues/38266
-    const date = computed(() => new Intl.DateTimeFormat('en-US', { dateStyle: "long" }).format(now.value));
+    const date = computed(() =>
+      new Intl.DateTimeFormat('en-US', { dateStyle: 'long' }).format(now.value),
+    );
 
     /* Setup update loop on the minute */
     const secondsRemainingInMinute = (60 - now.value.getSeconds()) * 1000;
 
-    function updateTime () {
+    function updateTime() {
       now.value = new Date();
     }
 
     setTimeout(() => {
+      updateTime();
+      setInterval(() => {
         updateTime();
-        setInterval(() => {
-          updateTime();
-        }, 60000);
+      }, 60000);
     }, secondsRemainingInMinute);
-    
+
     // TODOS
     const newTodoCompleted = ref(false);
-    const newTodoEmptyTitle = ref("");
+    const newTodoEmptyTitle = ref('');
     const newTodoForceUpdate = ref(0);
-    const todoElements: Ref<Array<typeof Todo>> = ref([])
-    
-    onBeforeUpdate(() => {
-        todoElements.value = []
-    })
+    const todoElements: Ref<Array<typeof Todo>> = ref([]);
 
-    function newTodo (title: string) {
+    onBeforeUpdate(() => {
+      todoElements.value = [];
+    });
+
+    function newTodo(title: string) {
       // add todo with current event value
       addTodo({
         title,
         created: new Date(),
         completed: false,
-      })
+      });
       // set new todo values back to defaults
-      newTodoCompleted.value = false
-      newTodoEmptyTitle.value = ""
-      newTodoForceUpdate.value = Math.random() 
+      newTodoCompleted.value = false;
+      newTodoEmptyTitle.value = '';
+      newTodoForceUpdate.value = Math.random();
       // focus on just added todo text input in ui
       nextTick(() => {
         const lastTodoIndex = todos.value.length - 1;
         const lastTodoElement = todoElements.value[lastTodoIndex];
-        lastTodoElement.focusInput()
-      })
+        lastTodoElement.focusInput();
+      });
     }
 
-    function dontCompletePlaceholderTodo () {
-      newTodoCompleted.value = false
-      newTodoForceUpdate.value = Math.random() 
+    function dontCompletePlaceholderTodo() {
+      newTodoCompleted.value = false;
+      newTodoForceUpdate.value = Math.random();
       // could use $forceUpdate instead?
     }
 
-    loadTodos()
-    archiveTodos()
+    loadTodos();
+    archiveTodos();
 
     return {
       // todos
-      todos, todoElements,
-      newTodo, dontCompletePlaceholderTodo,
-      newTodoCompleted, newTodoEmptyTitle, newTodoForceUpdate,
+      todos,
+      todoElements,
+      newTodo,
+      dontCompletePlaceholderTodo,
+      newTodoCompleted,
+      newTodoEmptyTitle,
+      newTodoForceUpdate,
       // time and date
-      now, day, time, date, 
-    }
+      now,
+      day,
+      time,
+      date,
+    };
   },
-})
+});
 </script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,800;1,400&display=swap');
 
 :root {
-  --color-surface: #1E1E1E;
-  --color-text: #C7C7C7;
+  --color-surface: #1e1e1e;
+  --color-text: #c7c7c7;
   --color-text-subtle: #767676;
-  --color-link: #0C7D9D;
+  --color-link: #0c7d9d;
 }
 
-html, body, #app, .splash-pad {
+html,
+body,
+#app,
+.splash-pad {
   width: 100vw;
   min-height: 100vh;
   padding: 0;
@@ -178,10 +204,6 @@ html, body, #app, .splash-pad {
 .splash-pad {
   display: flex;
   flex-direction: column;
-}
-
-.splash-pad__header {
-
 }
 
 .splash-pad__content {
@@ -259,19 +281,19 @@ h2 {
   color: var(--color-text-subtle);
 }
 
- a {
-  color: var(--color-link)
- }
+a {
+  color: var(--color-link);
+}
 
 .splash-pad__calendar__entry {
   display: flex;
-   flex-direction: column;
-   border-bottom: 1px solid rgb(55, 55, 55);
-   padding-bottom: 8px;
-   margin-bottom: 16px;
+  flex-direction: column;
+  border-bottom: 1px solid rgb(55, 55, 55);
+  padding-bottom: 8px;
+  margin-bottom: 16px;
 }
 
 .splash-pad__calendar__entry--now {
-  color: rgb(249, 97, 80); 
+  color: rgb(249, 97, 80);
 }
 </style>

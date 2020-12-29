@@ -1,2 +1,3 @@
-# ts-react-boilerplate
-Chrome extension boilerplate with TypeScript and React
+# Splash Pad
+
+Chrome extension built with TypeScript and Vue, bundled with Rollup.

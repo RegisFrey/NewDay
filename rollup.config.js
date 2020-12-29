@@ -1,14 +1,17 @@
-import resolve from '@rollup/plugin-node-resolve'
-import commonjs from '@rollup/plugin-commonjs'
-import replace from '@rollup/plugin-replace'
-import vue from 'rollup-plugin-vue'
-import postcss from 'rollup-plugin-postcss'
-import typescript from 'rollup-plugin-typescript2' // '@rollup/plugin-typescript'
-import { chromeExtension, simpleReloader } from 'rollup-plugin-chrome-extension'
-import { emptyDir } from 'rollup-plugin-empty-dir'
-import zip from 'rollup-plugin-zip'
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import replace from '@rollup/plugin-replace';
+import vue from 'rollup-plugin-vue';
+import postcss from 'rollup-plugin-postcss';
+import typescript from 'rollup-plugin-typescript2'; // '@rollup/plugin-typescript'
+import {
+  chromeExtension,
+  simpleReloader,
+} from 'rollup-plugin-chrome-extension';
+import { emptyDir } from 'rollup-plugin-empty-dir';
+import zip from 'rollup-plugin-zip';
 
-const isProduction = process.env.NODE_ENV === 'production'
+const isProduction = process.env.NODE_ENV === 'production';
 
 export default {
   input: 'src/manifest.json',
@@ -29,10 +32,12 @@ export default {
     resolve(),
     commonjs(),
     replace({
-      'process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development'),
+      'process.env.NODE_ENV': JSON.stringify(
+        isProduction ? 'production' : 'development',
+      ),
       // https://github.com/vuejs/vue-next/tree/master/packages/vue#bundler-build-feature-flags
-      '__VUE_OPTIONS_API__': true,
-      '__VUE_PROD_DEVTOOLS__': true
+      __VUE_OPTIONS_API__: true,
+      __VUE_PROD_DEVTOOLS__: true,
     }),
 
     // Empties the output dir before a new build
@@ -40,4 +45,4 @@ export default {
     // Outputs a zip file in ./releases
     isProduction && zip({ dir: 'releases' }),
   ],
-}
+};

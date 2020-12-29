@@ -1,46 +1,46 @@
 <template>
-<transition name="splash-pad__todo">
-<label
-  class="splash-pad__todo"
-  :class="{'splash-pad__todo--checked': completed}"
-  >
-  <span
-    class="splash-pad__todo__checkbox"
-    :class="{ 'splash-pad__todo__checkbox--checked': completed }"
-    />
-  <input
-    type="checkbox"
-    :checked="completed"
-    @change="changeChecked"
-    />
-  <input
-    :value="title"
-    @input="changeTitle" placeholder="What to do?"
-    ref="todoInput"
-    />
-</label>
-</transition>
+  <transition name="splash-pad__todo">
+    <label
+      class="splash-pad__todo"
+      :class="{ 'splash-pad__todo--checked': completed }"
+    >
+      <span
+        class="splash-pad__todo__checkbox"
+        :class="{ 'splash-pad__todo__checkbox--checked': completed }"
+      />
+      <input type="checkbox" :checked="completed" @change="changeChecked" />
+      <input
+        :value="title"
+        @input="changeTitle"
+        placeholder="What to do?"
+        ref="todoInput"
+      />
+    </label>
+  </transition>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-    props: {
-        completed: Boolean,
-        title: String,
+  props: {
+    completed: Boolean,
+    title: String,
+  },
+  methods: {
+    changeChecked(event: InputEvent) {
+      this.$emit(
+        'update:completed',
+        (event.target as HTMLInputElement).checked ? new Date() : false,
+      );
     },
-    methods: {
-        changeChecked (event: InputEvent) {
-          this.$emit('update:completed', (event.target as HTMLInputElement).checked ? new Date() : false)
-        },
-        changeTitle (event: InputEvent) {
-          this.$emit('update:title', (event.target as HTMLInputElement).value)
-        },
-        focusInput () {
-          (this.$refs.todoInput as HTMLInputElement).focus();
-        }
-    }
+    changeTitle(event: InputEvent) {
+      this.$emit('update:title', (event.target as HTMLInputElement).value);
+    },
+    focusInput() {
+      (this.$refs.todoInput as HTMLInputElement).focus();
+    },
+  },
 });
 </script>
 
@@ -66,7 +66,7 @@ export default defineComponent({
   text-decoration: line-through;
   color: var(--color-text-subtle);
 }
-.splash-pad__todo input[type="checkbox"] {
+.splash-pad__todo input[type='checkbox'] {
   opacity: 0;
   width: 1px;
   height: 1px;
