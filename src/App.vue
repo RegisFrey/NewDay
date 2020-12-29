@@ -13,61 +13,17 @@
     <div class="splash-pad__content">
       <div class="splash-pad__calendar">
         <h2>Today</h2>
-        <!--
-      TODO: GCal integration
-      <a href="#">Login with Google for Calendar</a>
-      -->
-        <div
-          class="splash-pad__calendar__entry splash-pad__calendar__entry--now"
-        >
-          <b class="splash-pad__meeting__time">2:10 PM</b>
-          Meeting Name Something
-        </div>
-
-        <div class="splash-pad__calendar__entry">
-          <b class="splash-pad__meeting__time">3:20 PM</b>
-          Meeting Name Something
-        </div>
-
-        <div class="splash-pad__calendar__entry">
-          <b class="splash-pad__meeting__time">5:00 PM</b>
-          Other Event
-        </div>
+        <Suspense><Calendar /></Suspense>
       </div>
 
       <div class="splash-pad__todos">
         <h2>Todo</h2>
-
-        <Todo
-          v-for="(todo, index) in todos"
-          :key="'todo-' + index"
-          :completed="todo.completed !== false"
-          @update:completed="todo.completed = $event"
-          v-model:title="todo.title"
-          :ref="
-            (el) => {
-              if (el) todoElements[index] = el;
-            }
-          "
-        />
-
-        <Todo
-          :completed="newTodoCompleted"
-          @update:completed="dontCompletePlaceholderTodo"
-          :title="newTodoEmptyTitle"
-          @update:title="newTodo"
-          :key="'todo-new-' + newTodoForceUpdate"
-        />
-        <!-- TODO: Reorder items? -->
-        <!-- TODO: Delete items? -->
-        <!-- TODO: Persistence -->
+        <Suspense><Todos /></Suspense>
       </div>
 
       <div class="splash-pad__notes">
         <h2>Notes</h2>
-        <textarea placeholder="Type notes"> </textarea>
-        <!-- TODO: Markdown or TipTap editor -->
-        <!-- TODO: Persistence -->
+        <Suspense><Notepad /></Suspense>
       </div>
     </div>
   </div>
@@ -79,16 +35,14 @@ import {
   defineComponent,
   computed,
   ref,
-  onBeforeUpdate,
-  Ref,
-  nextTick,
 } from 'vue';
-import { todos, loadTodos, addTodo, archiveTodos } from './state/todos';
-import Todo from './components/Todo.vue';
+import Todos from './components/Todos.vue';
+import Calendar from './components/Calendar.vue';
+import Notepad from './components/Notepad.vue';
 
 export default defineComponent({
   name: 'App',
-  components: { Todo },
+  components: { Todos, Calendar, Notepad },
   setup() {
     // TIME
     const now = ref(new Date());
@@ -102,8 +56,8 @@ export default defineComponent({
         minute: 'numeric',
       }).format(now.value),
     );
-    // @ts-ignore: https://github.com/microsoft/TypeScript/issues/38266
     const date = computed(() =>
+      // @ts-ignore: https://github.com/microsoft/TypeScript/issues/38266
       new Intl.DateTimeFormat('en-US', { dateStyle: 'long' }).format(now.value),
     );
 
@@ -121,53 +75,7 @@ export default defineComponent({
       }, 60000);
     }, secondsRemainingInMinute);
 
-    // TODOS
-    const newTodoCompleted = ref(false);
-    const newTodoEmptyTitle = ref('');
-    const newTodoForceUpdate = ref(0);
-    const todoElements: Ref<Array<typeof Todo>> = ref([]);
-
-    onBeforeUpdate(() => {
-      todoElements.value = [];
-    });
-
-    function newTodo(title: string) {
-      // add todo with current event value
-      addTodo({
-        title,
-        created: new Date(),
-        completed: false,
-      });
-      // set new todo values back to defaults
-      newTodoCompleted.value = false;
-      newTodoEmptyTitle.value = '';
-      newTodoForceUpdate.value = Math.random();
-      // focus on just added todo text input in ui
-      nextTick(() => {
-        const lastTodoIndex = todos.value.length - 1;
-        const lastTodoElement = todoElements.value[lastTodoIndex];
-        lastTodoElement.focusInput();
-      });
-    }
-
-    function dontCompletePlaceholderTodo() {
-      newTodoCompleted.value = false;
-      newTodoForceUpdate.value = Math.random();
-      // could use $forceUpdate instead?
-    }
-
-    loadTodos();
-    archiveTodos();
-
     return {
-      // todos
-      todos,
-      todoElements,
-      newTodo,
-      dontCompletePlaceholderTodo,
-      newTodoCompleted,
-      newTodoEmptyTitle,
-      newTodoForceUpdate,
       // time and date
       now,
       day,

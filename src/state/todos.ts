@@ -10,8 +10,8 @@ interface Todo {
 
 export let todos: Ref<Todo[]> = ref([]);
 
-export function loadTodos() {
-  todos = useStorageValue<Todo[]>('todos', []);
+export async function loadTodos() {
+  todos = await useStorageValue<Todo[]>('todos', []);
 }
 
 export function emptyTodo(): Todo {
