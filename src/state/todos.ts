@@ -51,7 +51,6 @@ export function archiveTodos() {
   const now = new Date();
   const pastStartOfDay = now.getHours() >= 6; // start of day is 6am
   if (pastStartOfDay) {
-    // const yesterday = new Date(now.getDate() - 1);
     todos.value.forEach((todo, index) => {
       if (todo.completed && daysBetween(todo.completed, now) > 0) {
         archiveTodo(index);
@@ -62,5 +61,5 @@ export function archiveTodos() {
 
 /** As archive will grow, we don't keep it in memory unles we are displaying it */
 export function getArchive() {
-  // TODO: Currently archived todos are just trashed
+  // TODO: Currently "archived" todos are just trashed
 }

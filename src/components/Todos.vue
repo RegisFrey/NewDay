@@ -22,12 +22,10 @@
     />
     <!-- TODO: Reorder items? -->
     <!-- TODO: Delete items? -->
-    <!-- TODO: Persistence -->
   </div>
 </template>
 
 <script lang="ts">
-// eslint-disable-next-line no-unused-vars
 import {
   defineComponent,
   ref,

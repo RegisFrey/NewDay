@@ -5,7 +5,43 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <!--link rel="icon" href="favicon.ico"-->
+    <!-- TODO preload font asset? -->
+    <!-- TODO preload script assets? -->
     <title>New Tab</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,800;1,400&display=swap');
+
+      :root {
+        --color-surface: #f4f0f1;
+        --color-linework: #dcdcdc;
+        --color-text: #716e6d;
+        --color-text-subtle: #969595;
+        --color-link: #0a86d3;
+        --color-warning: rgb(242, 87, 21);
+      }
+
+      :root.dark {
+        --color-surface: rgb(30, 30, 30);
+        --color-linework: rgb(69, 69, 69);
+        --color-text: #c7c7c7;
+        --color-text-subtle: #767676;
+        --color-link: #0c7d9d;
+        --color-warning: rgb(249, 97, 80);
+      }
+
+      html,
+      body,
+      #app,
+      .splash-pad {
+        width: 100vw;
+        min-height: 100vh;
+        padding: 0;
+        margin: 0;
+        background-color: var(--color-surface);
+        color: var(--color-text);
+        font-family: 'Open Sans', sans-serif;
+      }
+    </style>
   </head>
   <body>
     <noscript>

@@ -58,6 +58,9 @@ export default defineComponent({
   flex: 1;
   margin-top: 2px;
 }
+.splash-pad__todo input::placeholder {
+   color: var(--color-text-subtle);
+}
 .splash-pad__todo input:focus {
   outline: none;
 }
