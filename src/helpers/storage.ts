@@ -3,7 +3,7 @@ import { jsonDateReviver } from './dates';
 import { browser } from "webextension-polyfill-ts";
 
 export async function useStorageValue<T>(key: string, defaultValue: T): Promise<Ref<T>> {
-  const valueFromStorage = await browser.storage.local.get(key);
+  const valueFromStorage = await browser.storage.sync.get(key);
   const foundValue = (valueFromStorage && key in valueFromStorage);
   const valueParsed = foundValue
     ? (JSON.parse(valueFromStorage[key], jsonDateReviver) as T)
@@ -14,10 +14,17 @@ export async function useStorageValue<T>(key: string, defaultValue: T): Promise<
   watch(
     valueRef,
     (newValue: T) => {
-      browser.storage.local.set({ [key]: JSON.stringify(newValue) });
+      browser.storage.sync.set({ [key]: JSON.stringify(newValue) });
     },
     { deep: true },
   );
+
+  /* Update Vue on changes in storage (e.g. from other tabs) */
+  browser.storage.onChanged.addListener((changes) => {
+    if (key in changes) {
+      valueRef.value = (JSON.parse(changes[key].newValue, jsonDateReviver) as T)
+    }
+  });
 
   return valueRef;
 }
