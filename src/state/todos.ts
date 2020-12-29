@@ -1,4 +1,4 @@
-import { computed, Ref, ref } from 'vue'
+import { Ref, ref } from 'vue';
 import { daysBetween } from '../helpers/dates';
 import { useStorageValue } from '../helpers/storage';
 
@@ -10,8 +10,8 @@ interface Todo {
 
 export let todos: Ref<Todo[]> = ref([])
 
-export async function loadTodos () {
-    todos = await useStorageValue<Todo[]>('todos', [])
+export function loadTodos () {
+    todos = useStorageValue<Todo[]>('todos', [])
 }
 
 export function emptyTodo () : Todo {

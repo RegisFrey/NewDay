@@ -76,13 +76,13 @@
 <script lang="ts">
 // eslint-disable-next-line no-unused-vars
 import { defineComponent, computed, ref, onBeforeUpdate, Ref, nextTick } from 'vue';
-import { todos, loadTodos, addTodo, archiveTodos } from '../state/todos';
-import Todo from '../components/Todo.vue';
+import { todos, loadTodos, addTodo, archiveTodos } from './state/todos';
+import Todo from './components/Todo.vue';
 
 export default defineComponent({
   name: 'App',
   components: { Todo },
-  async setup () {
+  setup () {
     // TIME
     const now = ref(new Date());
 
@@ -140,7 +140,7 @@ export default defineComponent({
       // could use $forceUpdate instead?
     }
 
-    await loadTodos()
+    loadTodos()
     archiveTodos()
 
     return {
@@ -158,18 +158,18 @@ export default defineComponent({
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,800;1,400&display=swap');
 
+:root {
+  --color-surface: #1E1E1E;
+  --color-text: #C7C7C7;
+  --color-text-subtle: #767676;
+  --color-link: #0C7D9D;
+}
+
 html, body, #app, .splash-pad {
   width: 100vw;
   min-height: 100vh;
   padding: 0;
   margin: 0;
-}
-
-#app {
-  --color-surface: #1E1E1E;
-  --color-text: #C7C7C7;
-  --color-text-subtle: #767676;
-  --color-link: #0C7D9D;
   background-color: var(--color-surface);
   color: var(--color-text);
   font-family: 'Open Sans', sans-serif;

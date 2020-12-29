@@ -2,50 +2,52 @@
   "name": "splash-pad",
   "version": "0.1.0",
   "private": true,
+  "description": "Browser extension that adds a useful notepad in place of the default new tab page with calendar, todos, and shortcut icons.",
+  "keywords": [
+    "chrome-extension",
+    "web-extension",
+    "typescript"
+  ],
+  "license": "MIT",
+  "author": "Regis Frey<RegisFrey@Darkfirestudios.com>",
   "scripts": {
-    "serve": "vue-cli-service build --mode development --watch",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "build": "rollup -c",
+    "release": "cross-env NODE_ENV=production rollup -c",
+    "start": "rollup -c -w",
+    "test": "jest"
   },
   "dependencies": {
-    "core-js": "^3.6.5",
-    "vue": "^3.0.0"
+    "vue": "^3.0.4",
+    "webextension-polyfill": "^0.7.0"
   },
   "devDependencies": {
-    "@types/firefox-webext-browser": "^67.0.2",
-    "@typescript-eslint/eslint-plugin": "^2.33.0",
-    "@typescript-eslint/parser": "^2.33.0",
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-typescript": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0",
-    "@vue/eslint-config-typescript": "^5.0.2",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
+    "@rollup/plugin-alias": "^3.1.1",
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.0.1",
+    "@rollup/plugin-replace": "^2.3.4",
+    "@rollup/plugin-typescript": "^8.1.0",
+    "@types/chrome": "^0.0.127",
+    "@types/firefox-webext-browser": "^82.0.0",
+    "@types/jest": "^26.0.19",
+    "@typescript-eslint/eslint-plugin": "^4.10.0",
+    "@typescript-eslint/parser": "^4.10.0",
+    "@vue/compiler-sfc": "^3.0.4",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.16.0",
     "eslint-plugin-vue": "^7.0.0-0",
-    "typescript": "~3.9.3",
-    "vue-cli-plugin-browser-extension": "~0.25.1"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true,
-      "webextensions": true
-    },
-    "extends": [
-      "plugin:vue/vue3-essential",
-      "eslint:recommended",
-      "@vue/typescript"
-    ],
-    "parserOptions": {
-      "parser": "@typescript-eslint/parser"
-    },
-    "rules": {}
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+    "jest": "^26.6.3",
+    "jest-chrome": "^0.7.0",
+    "postcss": "^8.2.1",
+    "prettier": "^2.2.1",
+    "rollup": "^2.35.1",
+    "rollup-plugin-chrome-extension": "^3.4.0",
+    "rollup-plugin-empty-dir": "^1.0.4",
+    "rollup-plugin-postcss": "^4.0.0",
+    "rollup-plugin-typescript2": "^0.29.0",
+    "rollup-plugin-vue": "^6.0.0",
+    "rollup-plugin-zip": "^1.0.1",
+    "ts-jest": "^26.4.4",
+    "tslib": "^2.0.3",
+    "typescript": "^4.1.3"
+  }
 }

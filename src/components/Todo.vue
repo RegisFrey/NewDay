@@ -15,7 +15,7 @@
     />
   <input
     :value="title"
-    @input="changeTitle" placeholder="..."
+    @input="changeTitle" placeholder="What to do?"
     ref="todoInput"
     />
 </label>
@@ -56,6 +56,7 @@ export default defineComponent({
   font-size: 1rem;
   display: block;
   flex: 1;
+  margin-top: 2px;
 }
 .splash-pad__todo input:focus {
   outline: none;

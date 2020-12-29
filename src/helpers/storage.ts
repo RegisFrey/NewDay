@@ -1,7 +1,7 @@
-import { ref, watch, Ref } from "vue"
+import { ref, watch, Ref } from "vue";
 import { jsonDateReviver } from "./dates";
 
-export async function useStorageValue <T> (key: string, defaultValue: T): Promise<Ref<T>> {
+export function useStorageValue <T> (key: string, defaultValue: T): Ref<T> {
 
     const valueFromStorage = localStorage.getItem(key);
     const valueParsed = valueFromStorage ? JSON.parse(valueFromStorage, jsonDateReviver) as T : defaultValue;
@@ -9,7 +9,7 @@ export async function useStorageValue <T> (key: string, defaultValue: T): Promis
     
     /* Update storage on changes */
     watch(valueRef,
-        (newValue) => {
+        (newValue: T) => {
             localStorage.setItem(key, JSON.stringify(newValue))
         },
         { deep: true }
