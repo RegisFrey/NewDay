@@ -90,10 +90,21 @@ export default defineComponent({
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,800;1,400&display=swap');
 
 :root {
+  --color-surface: #f4f0f1;
+  --color-linework: #dcdcdc;
+  --color-text: #716e6d;
+  --color-text-subtle: #969595;
+  --color-link: #0a86d3;
+  --color-warning: rgb(242, 87, 21);
+}
+
+:root.dark {
   --color-surface: #1e1e1e;
+  --color-linework: rgb(69, 69, 69);
   --color-text: #c7c7c7;
   --color-text-subtle: #767676;
   --color-link: #0c7d9d;
+  --color-warning: rgb(249, 97, 80);
 }
 
 html,
@@ -196,12 +207,12 @@ a {
 .splash-pad__calendar__entry {
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid rgb(55, 55, 55);
+  border-bottom: 1px solid var(--color-linework);
   padding-bottom: 8px;
   margin-bottom: 16px;
 }
 
 .splash-pad__calendar__entry--now {
-  color: rgb(249, 97, 80);
+  color: var(--color-warning)
 }
 </style>
