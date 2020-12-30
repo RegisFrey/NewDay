@@ -38,7 +38,7 @@ export function completeTodo(index: number) {
  * Ideally it would write it to disk storage for later retrevial
  */
 export function archiveTodo(index: number) {
-  delete todos.value[index];
+  todos.value.splice(index, 1);
 }
 
 /**
