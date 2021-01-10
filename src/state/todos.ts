@@ -52,7 +52,7 @@ export function archiveTodos() {
   const pastStartOfDay = now.getHours() >= 6; // start of day is 6am
   if (pastStartOfDay) {
     todos.value.forEach((todo, index) => {
-      if (todo.completed && daysBetween(todo.completed, now) > 0) {
+      if (todo && todo.completed && daysBetween(todo.completed, now) > 0) {
         archiveTodo(index);
       }
     });
