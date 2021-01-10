@@ -12,17 +12,17 @@
 
     <div class="splash-pad__content">
       <div class="splash-pad__calendar">
-        <h2>Today</h2>
+        <h2 class="splash-pad__section-head">Today</h2>
         <Suspense><Calendar /></Suspense>
       </div>
 
       <div class="splash-pad__todos">
-        <h2>Todo</h2>
+        <h2 class="splash-pad__section-head">Todo</h2>
         <Suspense><Todos /></Suspense>
       </div>
 
       <div class="splash-pad__notes">
-        <h2>Notes</h2>
+        <h2 class="splash-pad__section-head">Notes</h2>
         <Suspense><Notepad /></Suspense>
       </div>
     </div>
@@ -90,12 +90,15 @@ export default defineComponent({
 .splash-pad {
   display: flex;
   flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .splash-pad__content {
   display: flex;
   flex-direction: row;
   flex: 1;
+  min-height: 0;
 }
 
 .splash-pad__today {
@@ -160,7 +163,7 @@ export default defineComponent({
   color: var(--color-text-subtle);
 }
 
-h2 {
+.splash-pad__section-head {
   text-transform: uppercase;
   font-size: 1rem;
   line-height: 1rem;

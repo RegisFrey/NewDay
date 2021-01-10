@@ -1,6 +1,7 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
+import json from '@rollup/plugin-json'
 import vue from 'rollup-plugin-vue';
 import postcss from 'rollup-plugin-postcss';
 import typescript from 'rollup-plugin-typescript2'; // '@rollup/plugin-typescript'
@@ -20,7 +21,6 @@ export default {
     format: 'esm',
     chunkFileNames: 'chunks/[name]-[hash].js',
   },
-  // external: ['vue'],
   plugins: [
     chromeExtension(), // Must be first to enter via manifest.json
     !isProduction && simpleReloader(), // Adds a Chrome extension reloader during watch mode
@@ -29,6 +29,7 @@ export default {
     typescript(),
     postcss(),
 
+    json(),
     resolve(),
     commonjs(),
     replace({

@@ -13,11 +13,13 @@
   "scripts": {
     "build": "rollup -c",
     "release": "cross-env NODE_ENV=production rollup -c",
-    "start": "rollup -c -w",
+    "start": "cross-env NODE_ENV=development rollup -c -w",
     "lint": "prettier --write .",
     "test": "jest"
   },
   "dependencies": {
+    "@rollup/plugin-json": "^4.1.0",
+    "medium-editor": "^5.23.3",
     "vue": "^3.0.4",
     "webextension-polyfill": "^0.7.0",
     "webextension-polyfill-ts": "^0.22.0"
@@ -31,6 +33,7 @@
     "@types/chrome": "^0.0.127",
     "@types/firefox-webext-browser": "^82.0.0",
     "@types/jest": "^26.0.19",
+    "@types/medium-editor": "^5.0.3",
     "@typescript-eslint/eslint-plugin": "^4.10.0",
     "@typescript-eslint/parser": "^4.10.0",
     "@vue/compiler-sfc": "^3.0.4",
