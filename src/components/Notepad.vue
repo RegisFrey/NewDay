@@ -78,7 +78,7 @@ export default defineComponent({
     Allow aligning bottom of text content to other column bottoms
     Using border vs padding to push up scrollbar.
   */
-  margin-bottom: -20px;
+  /* margin-bottom: -20px; */
   /* border-bottom: 20px solid transparent; */
 }
 /* Add an overlay gradient at top of text scroll off */

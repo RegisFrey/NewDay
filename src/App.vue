@@ -113,10 +113,7 @@ export default defineComponent({
   flex-direction: column;
   padding: 10px 20px;
   flex: 3;
-}
-
-.splash-pad__meeting__time {
-  font-size: 1.5rem;
+  padding-bottom: 0;
 }
 
 .splash-pad__todos {
@@ -124,6 +121,8 @@ export default defineComponent({
   flex-direction: column;
   padding: 10px 20px;
   flex: 3;
+  padding-bottom: 0;
+  
 }
 
 .splash-pad__notes {
@@ -131,15 +130,7 @@ export default defineComponent({
   flex-direction: column;
   padding: 10px 20px;
   flex: 7;
-}
-
-.splash-pad__notes > textarea {
-  display: flex;
-  flex: 1;
-  background-color: transparent;
-  border: none;
-  outline: none; /** TODO: Focus style */
-  color: var(--color-text);
+  padding-bottom: 0;
 }
 
 .splash-pad__hour,
@@ -172,17 +163,5 @@ export default defineComponent({
 
 a {
   color: var(--color-link);
-}
-
-.splash-pad__calendar__entry {
-  display: flex;
-  flex-direction: column;
-  border-bottom: 1px solid var(--color-linework);
-  padding-bottom: 8px;
-  margin-bottom: 16px;
-}
-
-.splash-pad__calendar__entry--now {
-  color: var(--color-warning)
 }
 </style>

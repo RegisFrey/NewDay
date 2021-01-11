@@ -90,3 +90,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style>
+.splash-pad-todos {
+  overflow-y: scroll;
+}
+</style>
