@@ -9,12 +9,19 @@
         :class="{ 'splash-pad__todo__checkbox--checked': completed }"
       />
       <input type="checkbox" :checked="completed" @change="changeChecked" />
-      <input
-        :value="title"
-        @input="changeTitle"
-        placeholder="What to do?"
-        ref="todoInput"
-      />
+
+      <div class="splash-pad__todo__description__container">
+        <textarea
+          contenteditable="true"
+          class="splash-pad__todo__description"
+          :value="title"
+          @input="changeTitle"
+          placeholder="What to do?"
+          ref="todoInput"
+          wrap="soft"
+        />
+        <div aria-hidden="true" class="splash-pad__todo__description--force-size">{{ title }}</div>
+      </div>
     </label>
   </transition>
 </template>
@@ -49,23 +56,49 @@ export default defineComponent({
   display: flex;
   margin-bottom: 8px;
 }
-.splash-pad__todo input {
+.splash-pad__todo__description__container {
+  position: relative;
+  min-height: 0;
+  flex: 1;
+  width: 100%;
+}
+
+/* style hidden sizing text and input to match in size */
+.splash-pad__todo__description, .splash-pad__todo__description--force-size {
+  margin-top: 2px;
+  font-size: 1rem;
+  font-family: var(--font-family);
+}
+
+.splash-pad__todo__description {
   background: transparent;
   border: none;
   color: var(--color-text);
-  font-size: 1rem;
+  resize:none;
   display: block;
-  flex: 1;
-  margin-top: 2px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* overflow: hidden; */
 }
-.splash-pad__todo input::placeholder {
+.splash-pad__todo__description--force-size {
+  visibility: hidden;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  padding-bottom: 4px;
+}
+.splash-pad__todo .splash-pad__todo__description::placeholder {
    color: var(--color-text-subtle);
 }
-.splash-pad__todo input:focus {
+.splash-pad__todo input:focus, .splash-pad__todo__description:focus {
   outline: none;
 }
 .splash-pad__todo--checked,
-.splash-pad__todo--checked input {
+.splash-pad__todo--checked .splash-pad__todo__description {
   text-decoration: line-through;
   color: var(--color-text-subtle);
 }
