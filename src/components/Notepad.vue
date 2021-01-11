@@ -1,26 +1,59 @@
 <template>
   <div class="splash-pad-notes__scrollbox">
-    <div class="splash-pad-notes" ref="editor" />
+    <div class="splash-pad-notes" ref="editor" v-html="notesHtml"></div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, Ref } from 'vue';
+import { defineComponent, ref, onMounted, Ref, watch } from 'vue';
 import MediumEditor from 'medium-editor';
 import 'medium-editor/dist/css/medium-editor.css';
 // import 'medium-editor/dist/css/themes/beagle.css'; // copied and usin own css variables
+import { loadNotes } from  '../state/notes'
 
 export default defineComponent({
   setup() {
     const editor: Ref<null | HTMLElement> = ref(null);
 
-    onMounted(() => {
-      if (editor.value !== null) { new MediumEditor(editor.value, {
-        paste: {
-          cleanPastedHTML: true,
-          forcePlainText: false,
-        },
-      }); }
+    onMounted(async () => {
+      const notesHtml = await loadNotes();
+      const editorEl = editor.value;
+
+      if (editorEl !== null) {
+        const mediumEditor = new MediumEditor(
+          editorEl,
+          {
+            paste: {
+              cleanPastedHTML: true,
+              forcePlainText: false,
+            },
+          }
+        );
+
+        if (mediumEditor) {
+          function updateEditor (htmlContent: string) {
+            if (editorEl && mediumEditor) { 
+            mediumEditor.setContent(htmlContent)
+            editorEl.innerHTML = htmlContent; // needed?
+            } 
+          }
+          
+          updateEditor(notesHtml.value);
+
+          mediumEditor.subscribe('editableInput', function (event, editable) {
+            // notesHtml.value = mediumEditor.serialize()
+            if (editorEl && mediumEditor && notesHtml) {
+              notesHtml.value = editorEl.innerHTML;
+            }
+          })
+
+          watch(notesHtml, (newHtml) => {
+            if (newHtml !== editorEl.innerHTML) {
+              updateEditor(newHtml);
+            }
+          })
+        }
+      }
     });
 
     return { editor };
