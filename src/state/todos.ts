@@ -18,14 +18,14 @@ export function emptyTodo(): Todo {
   return { title: '', created: new Date(), completed: false };
 }
 
-/** Add a To Do item */
 export function addTodo(todo: Todo) {
   todos.value.push(todo);
 }
 
 /** Move todo to archive immeadiately. Do not mark as complete */
 export function deleteTodo(index: number) {
-  archiveTodo(index);
+  archiveTodo(todos.value[index]);
+  todos.value.splice(index, 1);
 }
 
 /** Mark todo as complete. Will stay in list until it matches archive conditions and archive is triggered. */
@@ -34,12 +34,10 @@ export function completeTodo(index: number) {
 }
 
 /**
- * Currently this just deletes a todo.
+ * Currently this is a no-op.
  * Ideally it would write it to disk storage for later retrevial
  */
-export function archiveTodo(index: number) {
-  todos.value.splice(index, 1);
-}
+export function archiveTodo(todo: Todo) {}
 
 /**
  * Archive todos (move completed todos off visible list) based on a rule.
@@ -49,17 +47,19 @@ export function archiveTodo(index: number) {
  */
 export function archiveTodos() {
   const now = new Date();
-  const pastStartOfDay = now.getHours() >= 6; // start of day is 6am
+  const pastStartOfDay = now.getHours() >= 6; // we consider start of day as 6am
   if (pastStartOfDay) {
-    todos.value.forEach((todo, index) => {
+    todos.value.filter((todo, index) => {
       if (todo && todo.completed && daysBetween(todo.completed, now) > 0) {
-        archiveTodo(index);
+        archiveTodo(todo);
+        return false;
       }
+      return true;
     });
   }
 }
 
 /** As archive will grow, we don't keep it in memory unles we are displaying it */
 export function getArchive() {
-  // TODO: Currently "archived" todos are just trashed
+  // TODO: Currently "archived" todos are just trashed without actually archiving
 }
