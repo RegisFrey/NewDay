@@ -1,6 +1,6 @@
 <template>
   <div class="splash-pad-notes__scrollbox">
-    <div class="splash-pad-notes" ref="editor" v-html="notesHtml"></div>
+    <div class="splash-pad-notes" ref="editor"></div>
   </div>
 </template>
 
@@ -103,6 +103,8 @@ export default defineComponent({
   min-height: 0;
   height: 100%;
 
+  position: relative;
+
   /* accomodate bullets hanging off left */
   margin-left: -8px;
   padding-left: 8px;
@@ -154,6 +156,11 @@ p {
 }
 
 /* EDITOR THEME */
+.medium-editor-placeholder:after {
+  padding-left: 16px;
+  color: var(--color-text-subtle);
+}
+
 .medium-toolbar-arrow-under:after {
   border-color: var(--color-surface-inverse) transparent transparent transparent;
   top: 40px;
