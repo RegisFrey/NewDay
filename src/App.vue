@@ -1,88 +1,21 @@
 <template>
   <div class="splash-pad">
     <header class="splash-pad__header">
-      <div class="splash-pad__today">
-        <h1>
-          <span class="splash-pad__hour">{{ time }}</span>
-          <span class="splash-pad__day">{{ day }}</span>
-          <span class="splash-pad__date">{{ date }}</span>
-        </h1>
-      </div>
+      <Clock />
     </header>
 
-    <div class="splash-pad__content">
-      <div class="splash-pad__calendar">
-        <h2 class="splash-pad__section-head">Today</h2>
-        <Suspense><Calendar /></Suspense>
-      </div>
-
-      <div class="splash-pad__todos">
-        <h2 class="splash-pad__section-head">Todo</h2>
-        <Suspense><Todos /></Suspense>
-      </div>
-
-      <div class="splash-pad__notes">
-        <h2 class="splash-pad__section-head">Notes</h2>
-        <Suspense><Notepad /></Suspense>
-      </div>
-    </div>
+    <Suspense><Columns /></Suspense>
   </div>
 </template>
 
 <script lang="ts">
-// eslint-disable-next-line no-unused-vars
-import {
-  defineComponent,
-  computed,
-  ref,
-} from 'vue';
-import Todos from './components/Todos.vue';
-import Calendar from './components/Calendar.vue';
-import Notepad from './components/Notepad.vue';
+import { defineComponent } from 'vue';
+import Columns from './components/Columns.vue';
+import Clock from './components/Clock.vue';
 
 export default defineComponent({
   name: 'App',
-  components: { Todos, Calendar, Notepad },
-  setup() {
-    // TIME
-    const now = ref(new Date());
-
-    const day = computed(() =>
-      new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(now.value),
-    );
-    const time = computed(() =>
-      new Intl.DateTimeFormat('en-US', {
-        hour: 'numeric',
-        minute: 'numeric',
-      }).format(now.value),
-    );
-    const date = computed(() =>
-      // @ts-ignore: https://github.com/microsoft/TypeScript/issues/38266
-      new Intl.DateTimeFormat('en-US', { dateStyle: 'long' }).format(now.value),
-    );
-
-    /* Setup update loop on the minute */
-    const secondsRemainingInMinute = (60 - now.value.getSeconds()) * 1000;
-
-    function updateTime() {
-      now.value = new Date();
-    }
-
-    setTimeout(() => {
-      updateTime();
-      setInterval(() => {
-        updateTime();
-      }, 60000);
-    }, secondsRemainingInMinute);
-
-    return {
-      // time and date
-      now,
-      day,
-      time,
-      date,
-    };
-  },
+  components: { Clock, Columns }
 });
 </script>
 
