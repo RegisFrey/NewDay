@@ -20,7 +20,12 @@
           ref="todoInput"
           wrap="soft"
         />
-        <div aria-hidden="true" class="splash-pad__todo__description--force-size">{{ title }}</div>
+        <div
+          aria-hidden="true"
+          class="splash-pad__todo__description--force-size"
+        >
+          {{ title }}
+        </div>
       </div>
     </label>
   </transition>
@@ -64,7 +69,8 @@ export default defineComponent({
 }
 
 /* style hidden sizing text and input to match in size */
-.splash-pad__todo__description, .splash-pad__todo__description--force-size {
+.splash-pad__todo__description,
+.splash-pad__todo__description--force-size {
   margin-top: 2px;
   font-size: 1rem;
   font-family: var(--font-family);
@@ -74,7 +80,7 @@ export default defineComponent({
   background: transparent;
   border: none;
   color: var(--color-text);
-  resize:none;
+  resize: none;
   display: block;
   width: 100%;
   position: absolute;
@@ -92,9 +98,10 @@ export default defineComponent({
   padding-bottom: 4px;
 }
 .splash-pad__todo .splash-pad__todo__description::placeholder {
-   color: var(--color-text-subtle);
+  color: var(--color-text-subtle);
 }
-.splash-pad__todo input:focus, .splash-pad__todo__description:focus {
+.splash-pad__todo input:focus,
+.splash-pad__todo__description:focus {
   outline: none;
 }
 .splash-pad__todo--checked,

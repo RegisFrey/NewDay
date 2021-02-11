@@ -1,11 +1,11 @@
 <template>
-    <div class="splash-pad__today">
-        <h1>
-          <span class="splash-pad__hour">{{ time }}</span>
-          <span class="splash-pad__day">{{ day }}</span>
-          <span class="splash-pad__date">{{ date }}</span>
-        </h1>
-    </div>
+  <div class="splash-pad__today">
+    <h1>
+      <span class="splash-pad__hour">{{ time }}</span>
+      <span class="splash-pad__day">{{ day }}</span>
+      <span class="splash-pad__date">{{ date }}</span>
+    </h1>
+  </div>
 </template>
 
 <script lang="ts">
@@ -14,7 +14,7 @@ import { defineComponent, ref, computed } from 'vue';
 
 export default defineComponent({
   name: 'Clock',
-  setup () {
+  setup() {
     const now = ref(new Date());
 
     const day = computed(() =>

@@ -9,7 +9,7 @@ import { defineComponent, ref, onMounted, Ref, watch } from 'vue';
 import MediumEditor from 'medium-editor';
 import 'medium-editor/dist/css/medium-editor.css';
 // import 'medium-editor/dist/css/themes/beagle.css'; // copied and usin own css variables
-import { loadNotes } from  '../state/notes'
+import { loadNotes } from '../state/notes';
 
 export default defineComponent({
   setup() {
@@ -20,24 +20,21 @@ export default defineComponent({
       const editorEl = editor.value;
 
       if (editorEl !== null) {
-        const mediumEditor = new MediumEditor(
-          editorEl,
-          {
-            paste: {
-              cleanPastedHTML: true,
-              forcePlainText: false,
-            },
-          }
-        );
+        const mediumEditor = new MediumEditor(editorEl, {
+          paste: {
+            cleanPastedHTML: true,
+            forcePlainText: false,
+          },
+        });
 
         if (mediumEditor) {
-          function updateEditor (htmlContent: string) {
-            if (editorEl && mediumEditor) { 
-            mediumEditor.setContent(htmlContent)
-            editorEl.innerHTML = htmlContent; // needed?
-            } 
+          function updateEditor(htmlContent: string) {
+            if (editorEl && mediumEditor) {
+              mediumEditor.setContent(htmlContent);
+              editorEl.innerHTML = htmlContent; // needed?
+            }
           }
-          
+
           updateEditor(notesHtml.value);
 
           mediumEditor.subscribe('editableInput', function (event, editable) {
@@ -45,13 +42,13 @@ export default defineComponent({
             if (editorEl && mediumEditor && notesHtml) {
               notesHtml.value = editorEl.innerHTML;
             }
-          })
+          });
 
           watch(notesHtml, (newHtml) => {
             if (newHtml !== editorEl.innerHTML) {
               updateEditor(newHtml);
             }
-          })
+          });
         }
       }
     });

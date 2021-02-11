@@ -15,7 +15,7 @@ import Clock from './components/Clock.vue';
 
 export default defineComponent({
   name: 'App',
-  components: { Clock, Columns }
+  components: { Clock, Columns },
 });
 </script>
 
@@ -55,7 +55,6 @@ export default defineComponent({
   padding: 10px 20px;
   flex: 3;
   padding-bottom: 0;
-  
 }
 
 .splash-pad__notes {

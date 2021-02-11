@@ -7,10 +7,10 @@
       @update:completed="todo.completed = $event"
       v-model:title="todo.title"
       :ref="
-            (el) => {
-              if (el) todoElements[index] = el;
-            }
-          "
+        (el) => {
+          if (el) todoElements[index] = el;
+        }
+      "
     />
 
     <Todo
@@ -26,13 +26,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  onBeforeUpdate,
-  Ref,
-  nextTick,
-} from 'vue';
+import { defineComponent, ref, onBeforeUpdate, Ref, nextTick } from 'vue';
 import { todos, loadTodos, addTodo, archiveTodos } from '../state/todos';
 import Todo from './Todo.vue';
 
