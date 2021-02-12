@@ -3,11 +3,5 @@
   "homepage_url": "http://regisfrey.com/projects/splash-pad",
   "chrome_url_overrides": {
     "newtab": "index.html"
-  },
-  "oauth2": {
-    "client_id": "xxxxxxx",
-    "scopes": [
-      "https://www.googleapis.com/auth/calendar.events.readonly"
-    ]
   }
 }

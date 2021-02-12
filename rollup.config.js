@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import _dotenv from 'dotenv/config'; // loads environment variables
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
@@ -21,8 +23,18 @@ export default {
     format: 'esm',
     chunkFileNames: 'chunks/[name]-[hash].js',
   },
+  // watch: { clearScreen: false }, // for dev debug
   plugins: [
-    chromeExtension(), // Must be first to enter via manifest.json
+    // chromeExtension() must be first, in order to properly treat manifest.json as the entry point
+    chromeExtension({
+      publicKey: process.env.PUBLIC_KEY,
+      extendManifest: {
+        "oauth2": {
+          "client_id": process.env.OAUTH_CLIENT_ID,
+          "scopes": ["https://www.googleapis.com/auth/calendar.events.readonly"]
+        }
+      }
+    }),
     !isProduction && simpleReloader(), // Adds a Chrome extension reloader during watch mode
 
     vue(),
