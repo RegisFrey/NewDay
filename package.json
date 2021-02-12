@@ -1,8 +1,8 @@
 {
-  "name": "splash-pad",
-  "version": "0.1.0",
+  "name": "new-day",
+  "version": "0.1.1",
   "private": true,
-  "description": "Browser extension that adds a useful notepad in place of the default new tab page with calendar, todos, and shortcut icons.",
+  "description": "a minimal new tab for keeping notes and staying on task.",
   "keywords": [
     "chrome-extension",
     "web-extension",

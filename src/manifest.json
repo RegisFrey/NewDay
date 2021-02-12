@@ -1,6 +1,6 @@
 {
-  "name": "Splash Pad",
-  "homepage_url": "http://regisfrey.com/projects/splash-pad",
+  "name": "New Day",
+  "homepage_url": "http://regisfrey.com/projects/new-day",
   "chrome_url_overrides": {
     "newtab": "index.html"
   }
