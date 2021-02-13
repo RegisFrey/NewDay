@@ -14,12 +14,10 @@
       }"
     >
       <b class="splash-pad__start__time">
-        {{ timeInTimezone(entry.start) }}
-        <a :href="entry.calendarLink" style="padding: 8px;">
+        {{ entry.isAllDay ? entry.title : timeInTimezone(entry.start) }}
+        <a :href="entry.calendarLink" class="splash-pad__cal-link">
           <svg
-            style="stroke: var(--color-text-subtle)"
-            width="24"
-            height="24"
+            class="splash-pad__cal-icon splash-pad__cal-icon--link"
             viewBox="0 0 24 24"
             fill="none"
             stroke-width="2"
@@ -31,13 +29,11 @@
             ></path>
             <line x1="8" y1="12" x2="16" y2="12"></line>
           </svg>
-          <!-- Feather - https://github.com/feathericons/feather - Link Alterante 2 - MIT License -->
+          <!-- Feather - https://github.com/feathericons/feather - Link Alternative 2 - MIT License -->
         </a>
-        <a v-if="entry.joinLink" :href="entry.joinLink" style="padding: 8px;">
+        <a v-if="entry.joinLink" :href="entry.joinLink" class="splash-pad__cal-link">
           <svg
-            style="stroke: var(--color-text-subtle)"
-            width="24"
-            height="24"
+            class="splash-pad__cal-icon splash-pad__cal-icon--video-call"
             viewBox="0 0 24 24"
             fill="none"
             stroke-width="2"
@@ -50,8 +46,7 @@
           <!-- Feather - https://github.com/feathericons/feather - Video - MIT License -->
         </a>
       </b>
-      <p>{{ entry.title }}</p>
-      <!-- link? to view on calendar / to join video call? both zoom and hangouts links? -->
+      <p v-if="!entry.isAllDay">{{ entry.title }}</p>
     </div>
   </div>
   <div class="splash-pad-calendar splash-pad-calendar--authenticate" v-else>
@@ -83,6 +78,7 @@ interface PreparedEvent {
   title: string;
   start: Date;
   end: Date;
+  isAllDay: boolean;
   isSoonOrNow: boolean;
   isPast: boolean;
   joinLink?: string;
@@ -90,21 +86,22 @@ interface PreparedEvent {
 }
 
 function prepareEvent(event: GoogleCalendarEvent): PreparedEvent {
+  const isAllDay = "date" in event.start;
+  
   const start = localizeDatetimeToDate(
-    event.start.dateTime,
-    // event.start.timeZone, // (why does it not work when this is passed in? I'm doing something dumb but to sleep deprived to fix it now.)
+    (event.start.dateTime || event.start.date) as string,
   );
   const end = localizeDatetimeToDate(
-    event.end.dateTime,
-    // event.end.timeZone,
+    (event.end.dateTime || event.end.date) as string,
   );
+
+  // TODO: replace now with a ref on a timer (share with clock?)
   const now = new Date();
   const almostNow = addMinutes(now, 10);
 
-  // TODO: replace now with a ref on a timer (share with clock?)
 
   const isPast = now >= end;
-  const isSoonOrNow = start <= almostNow && !isPast;
+  const isSoonOrNow = !isAllDay && start <= almostNow && !isPast;
 
   const joinLink = event.conferenceData?.entryPoints.find(
     (entry) => entry.entryPointType === 'video',
@@ -114,6 +111,7 @@ function prepareEvent(event: GoogleCalendarEvent): PreparedEvent {
     title: event.summary,
     start,
     end,
+    isAllDay,
     isSoonOrNow,
     isPast,
     joinLink,
@@ -121,15 +119,26 @@ function prepareEvent(event: GoogleCalendarEvent): PreparedEvent {
   };
 }
 
+function partition <T>(array: T[], predicate: (item: T) => boolean): [T[], T[]] {
+    return array.reduce(
+      (accumulator, item) => predicate(item)
+        ? (accumulator[0].push(item), accumulator)
+        : (accumulator[1].push(item), accumulator)
+      , [[], []] as [T[], T[]]);
+}
+
 export default defineComponent({
   async setup() {
     const state = await getState();
 
+    const preparedEvent = state.events.value.map(prepareEvent)
+
+    let [ allDayEvents, upcomingEvents ] = partition(preparedEvent, e => e.isAllDay)
+    upcomingEvents = upcomingEvents.filter(e => !e.isPast)
+
     return {
       ...state,
-      preparedEvents: state.events.value
-        .map(prepareEvent)
-        .filter((e) => !e.isPast),
+      preparedEvents: [...allDayEvents, ...upcomingEvents],
       setCalendarVisible,
       authenticateForCalendar,
       timeInTimezone,
@@ -152,5 +161,16 @@ export default defineComponent({
 
 .splash-pad__calendar__entry--now {
   color: var(--color-warning);
+}
+
+.splash-pad__cal-link {
+  padding: 0 8px;
+}
+
+.splash-pad__cal-icon {
+  width: 24px;
+  height: 24px;
+  stroke: var(--color-text-subtle);
+  vertical-align: middle;
 }
 </style>
