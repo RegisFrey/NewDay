@@ -88,5 +88,6 @@ export default defineComponent({
 <style>
 .splash-pad-todos {
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 </style>
