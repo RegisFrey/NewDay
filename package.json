@@ -15,7 +15,8 @@
     "release": "cross-env NODE_ENV=production rollup -c",
     "start": "cross-env NODE_ENV=development rollup -c -w",
     "lint": "prettier --write .",
-    "test": "jest"
+    "test": "jest",
+    "site": "node generate-site.js"
   },
   "dependencies": {
     "@rollup/plugin-json": "^4.1.0",
@@ -43,6 +44,7 @@
     "eslint-plugin-vue": "^7.0.0-0",
     "jest": "^26.6.3",
     "jest-chrome": "^0.7.0",
+    "marked": "^2.0.0",
     "postcss": "^8.2.1",
     "prettier": "^2.2.1",
     "rollup": "^2.35.1",
