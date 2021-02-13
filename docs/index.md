@@ -4,6 +4,8 @@
 # ✨ New Day ✨
 ## A minimal new tab for keeping notes and staying on task.
 
+by [Regis Frey](http://regisfrey.com)
+
 </header>
 
 ![Screenshot showing the time and 2 columns of todos and notes](../promo/NewDay-Screenshot.png)
