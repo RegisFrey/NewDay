@@ -1,5 +1,6 @@
 export interface GoogleCalendarEventTime {
-  dateTime: string;
+  date?: string;
+  dateTime?: string;
   timeZone?: string;
 }
 
