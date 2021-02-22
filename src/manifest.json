@@ -1,6 +1,7 @@
 {
   "name": "New Day",
   "homepage_url": "http://regisfrey.com/projects/new-day",
+  "options_page": "options.html",
   "chrome_url_overrides": {
     "newtab": "index.html"
   }

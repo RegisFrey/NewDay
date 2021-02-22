@@ -56,7 +56,7 @@ export async function authenticateForCalendar(interactive = false) {
         updateCalendar();
       } else {
         authenticated.value = false;
-        // TODO: Show error in UI? e.g. in settings or on first auth.
+        // TODO: Show error in UI? e.g. in options or if error on first auth.
       }
     });
   }

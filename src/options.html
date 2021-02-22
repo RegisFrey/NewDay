@@ -3,9 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <!--link rel="icon" href="favicon.ico"-->
-    <!-- TODO preload font asset? -->
-    <!-- TODO preload script assets? -->
+
     <title>New Tab</title>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,800;1,400&display=swap');
@@ -25,18 +23,6 @@
         --color-link: #0a86d3;
         --color-warning: rgb(242, 87, 21);
       }
-      /*
-      :root.dark {
-        --color-surface: rgb(30, 30, 30);
-        --color-surface-transparent: rgba(30, 30, 30, 0);
-        --color-linework: rgb(69, 69, 69);
-        --color-linework-emphasized: rgb(89, 89, 89);
-        --color-text: #c7c7c7;
-        --color-text-subtle: #767676;
-        --color-link: #0c7d9d;
-        --color-warning: rgb(249, 97, 80);
-      }
-      */
 
       html,
       body,
@@ -58,12 +44,12 @@
   </head>
   <body>
     <noscript>
-      <strong
-        >This extension doesn't work properly without JavaScript enabled. Please
-        enable it to continue.</strong
-      >
+      <strong>
+        This extension doesn't work properly without JavaScript enabled. Please
+        enable it to continue.
+      </strong>
     </noscript>
     <div id="app"></div>
-    <script src="main.ts"></script>
+    <script src="options.ts"></script>
   </body>
 </html>

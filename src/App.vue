@@ -1,21 +1,37 @@
 <template>
-  <div class="splash-pad">
+  <Options
+    class="splash-pad"
+    @close="showOptions = false"
+    :showOptions="showOptions"
+    :canClose="!alwaysShowOptions"
+    >
     <header class="splash-pad__header">
       <Clock />
+      <button @click="showOptions = true">Show Options</button>
+      showOptions: {{ showOptions }}
     </header>
 
     <Suspense><Columns /></Suspense>
-  </div>
+  </Options>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import Columns from './components/Columns.vue';
 import Clock from './components/Clock.vue';
+import Options from './components/Options.vue';
 
 export default defineComponent({
   name: 'App',
-  components: { Clock, Columns },
+  components: { Clock, Columns, Options },
+  props: {
+    alwaysShowOptions: Boolean,
+  },
+  data () {
+    return {
+      showOptions: false || this.alwaysShowOptions,
+    }
+  },
 });
 </script>
 
@@ -23,7 +39,6 @@ export default defineComponent({
 .splash-pad {
   display: flex;
   flex-direction: column;
-  height: 100vh;
   overflow: hidden;
 }
 
