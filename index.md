@@ -1,6 +1,6 @@
 <header>
 
-![New Day - Sparkling Tab Logo](./promo/NewDay-Icon.png)
+![New Day - Sparkling Tab Logo](./src/promo/NewDay-Icon.png)
 # ✨ New Day ✨
 ## A minimal new tab for keeping notes and staying on task.
 
@@ -8,7 +8,7 @@ by [Regis Frey](http://regisfrey.com)
 
 </header>
 
-![Screenshot showing the time and 2 columns of todos and notes](./promo/NewDay-Screenshot.png)
+![Screenshot showing the time and 2 columns of todos and notes](./src/promo/NewDay-Screenshot.png)
 
 New Day is a Chrome extension 
 to keep notes, track todos, and see events

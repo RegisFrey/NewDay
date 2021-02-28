@@ -1,6 +1,11 @@
 {
   "name": "New Day",
-  "homepage_url": "http://regisfrey.com/projects/new-day",
+  "homepage_url": "https://regisfrey.github.io/NewDay/",
+  "icons": {
+    "16": "promo/NewDay-Favicon.png",
+    "48": "promo/NewDay-Icon-48.png",
+    "128": "promo/NewDay-Icon.png"
+  },
   "options_page": "options.html",
   "chrome_url_overrides": {
     "newtab": "index.html"
