@@ -6,7 +6,11 @@ import { debounce } from './debounce';
 export async function useStorageValue<T>(
   key: string,
   defaultValue: T,
+  debounceTimeout = 500
 ): Promise<Ref<T>> {
+
+  // TODO: Stop stringifying values (pass over as json instead, don't JSON.parse on return)
+
   const valueFromStorage = await browser.storage.sync.get(key);
   const foundValue = valueFromStorage && key in valueFromStorage;
   const valueParsed = foundValue
@@ -14,10 +18,14 @@ export async function useStorageValue<T>(
     : defaultValue;
   const valueRef = ref(valueParsed) as Ref<T>;
 
+  // handle "This request exceeds the MAX_WRITE_OPERATIONS_PER_MINUTE quota." errors
+  // by queuing against localStorage state?
+  // dumping/syncing on losing focus.
+
   /* Update storage on changes in Vue, debounced */
   const debouncedStorageSync = debounce((newValue: T) => {
     browser.storage.sync.set({ [key]: JSON.stringify(newValue) });
-  });
+  }, debounceTimeout);
 
   watch(
     valueRef,

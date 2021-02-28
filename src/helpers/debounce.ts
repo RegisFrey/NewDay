@@ -1,8 +1,10 @@
-export function debounce<T extends Function>(callback: T, wait = 500) {
-  let h = 0;
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export function debounce<T extends Function>(callback: T, wait = 500): any {
+  let timeoutId = 0;
   const callable = (...args: any) => {
-    window.clearTimeout(h);
-    h = window.setTimeout(() => callback(...args), wait);
+    window.clearTimeout(timeoutId);
+    timeoutId = window.setTimeout(() => callback(...args), wait);
   };
   return <T>(<any>callable);
 }
