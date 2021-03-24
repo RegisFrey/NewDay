@@ -26,11 +26,8 @@
           </svg>
           <span class="screen-reader-text">Options</span>
       </button>
-
-      
     </header>
-
-    <Suspense><Columns /></Suspense>
+    <Columns />
   </Options>
 </Suspense>
 </template>
@@ -49,7 +46,7 @@ export default defineComponent({
     alwaysShowOptions: Boolean,
   },
   async setup (props) {
-    const showOptions = ref(false || props.alwaysShowOptions)
+    const showOptions = ref(props.alwaysShowOptions || false)
     let theme = await getResolvedTheme();
     return { showOptions, theme, ThemePreference }
   },

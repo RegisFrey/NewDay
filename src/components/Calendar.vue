@@ -1,5 +1,5 @@
 <template>
-  <div class="splash-pad-calendar" v-if="authenticated">
+  <div class="splash-pad-calendar" v-if="authState === AuthState.Authenticated">
     <div v-if="preparedEvents.length === 0">
       The rest of your day is wide open.
       <!-- TODO:FEATURE? You've got 3 events tomorrow -->
@@ -49,20 +49,28 @@
       <p v-if="!entry.isAllDay">{{ entry.title }}</p>
     </div>
   </div>
-  <div class="splash-pad-calendar splash-pad-calendar--authenticate" v-else>
+  <div class="splash-pad-calendar" v-else>
     New Day can display upcoming events from your calendars.
 
-    <button @click="authenticateForCalendar(true)">
-      Connect to Google Calendar
-    </button>
-    or
-    <button @click="setCalendarVisible(false)">Hide Calendar Column</button>
+    <div class="nd-calendar--authenticate">
+      <button @click="authenticateInteractively()" class="nd-button">
+        Connect to Google Calendar
+      </button>
+      <div class="nd-error" v-if="authState === AuthState.Error">
+        Could not authenticate.
+      </div>
+      or
+      <button @click="setCalendarVisible(false)" class="nd-link-button">Hide Calendar Column</button>
+    </div>
+
+    
   </div>
 </template>
 
 <script lang="ts">
 import type { GoogleCalendarEvent } from '../typings/google-calendar';
 import { defineComponent } from 'vue';
+import { authenticateInteractively } from '../state/auth.ts';
 import {
   getState,
   setCalendarVisible,
@@ -140,7 +148,7 @@ export default defineComponent({
       ...state,
       preparedEvents: [...allDayEvents, ...upcomingEvents],
       setCalendarVisible,
-      authenticateForCalendar,
+      authenticateInteractively,
       timeInTimezone,
     };
   },
@@ -172,5 +180,12 @@ export default defineComponent({
   height: 24px;
   stroke: var(--color-text-subtle);
   vertical-align: middle;
+}
+
+.nd-calendar--authenticate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 16px;
 }
 </style>

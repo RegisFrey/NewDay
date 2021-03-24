@@ -53,6 +53,9 @@ body,
   --color-text-subtle: #969595;
   --color-highlight: rgb(242, 87, 21);
   --color-link: #0a86d3;
+  --color-link-emph: #0374bb;
+  --color-link-bg-hover: #0a86d317;
+  --color-warning-subtle: rgba(242, 87, 21, 0.2);
   --color-warning: rgb(242, 87, 21);
 }
 
@@ -64,6 +67,9 @@ body,
   --color-text: #c7c7c7;
   --color-text-subtle: #767676;
   --color-link: #0c7d9d;
+  --color-link-emph: #25b9e2;
+  --color-link-bg-hover: #0a86d317;
+  --color-warning-subtle: rgba(249, 97, 80, 0.2);
   --color-warning: rgb(249, 97, 80);
 }
 
@@ -99,7 +105,7 @@ body,
   display: flex;
   flex-direction: column;
   padding: 10px 20px;
-  flex: 3;
+  flex: 4;
   padding-bottom: 0;
 }
 
@@ -107,7 +113,7 @@ body,
   display: flex;
   flex-direction: column;
   padding: 10px 20px;
-  flex: 7;
+  flex: 8;
   padding-bottom: 0;
 }
 
@@ -139,7 +145,41 @@ body,
   color: var(--color-text-subtle);
 }
 
-a {
+a, .nd-link, .nd-link-button {
   color: var(--color-link);
+  text-decoration: underline;
+  border: none;
+  background: none;
+  margin: 0;
+  padding: 2px 4px;
+}
+
+a:hover, .nd-link:hover {
+  color: var(--color-link-emph);
+}
+
+.nd-link-button {
+  text-decoration: none;
+}
+
+.nd-button {
+  border: 2px solid var(--color-link);
+  color: var(--color-link-emph);
+  padding: 8px;
+  margin: 4px;
+  background: none;
+  border-radius: 8px;
+}
+.nd-button:hover {
+  background: var(--color-link-bg-hover);
+}
+
+.nd-error {
+  background-color: var(--color-warning-subtle);
+  color: var(--color-warning);
+  padding: 8px;
+  border-left: 4px solid var(--color-warning);
+  margin-top: 8px;
+  font-weight: bold;
 }
 </style>

@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import type { GoogleCalendarEvent } from '../typings/google-calendar';
-import { Ref } from 'vue';
-import { addHours, addMinutes } from '../helpers/dates';
+import { nextTick, ref, Ref } from 'vue';
+import { addHours, addMinutes, minutesInMs } from '../helpers/dates';
 import { useStorageValue } from '../helpers/storage';
+import { debounce } from '../helpers/debounce';
 
 /*
 interface SavedEvent  {
@@ -24,50 +25,41 @@ interface PreparedEvent extends SavedEvent {
 export const calendarIsSupported =
   window && 'chrome' in window && 'identity' in window.chrome;
 
-let events: Ref<Array<GoogleCalendarEvent>>;
-let eventsCachedAt: Ref<Date>;
-let authenticated: Ref<boolean>;
-let hidden: Ref<boolean>;
-let oauthToken: Ref<string>;
+let state:
+  | {
+      events: Ref<Array<GoogleCalendarEvent>>;
+      eventsCachedAt: Ref<Date>;
+      hidden: Ref<boolean>;
+    }
+  | undefined;
 
 export async function getState() {
-  events = await useStorageValue<Array<GoogleCalendarEvent>>('events', []);
-  eventsCachedAt = await useStorageValue<Date>('eventsCachedAt', new Date(0));
-  hidden = await useStorageValue<boolean>('calendarHidden', false);
-  authenticated = await useStorageValue<boolean>('authenticated', false);
-  oauthToken = await useStorageValue<string>('token', '');
+  if (state) {
+    return state;
+  } else {
+    state = {
+      events: await useStorageValue<Array<GoogleCalendarEvent>>('events', []),
+      eventsCachedAt: await useStorageValue<Date>(
+        'eventsCachedAt',
+        new Date(0),
+      ),
+      hidden: await useStorageValue<boolean>('calendarHidden', false),
+    };
 
-  await authenticateForCalendar();
-
-  return {
-    events,
-    authenticated,
-    hidden,
-    oauthToken,
-  };
-}
-
-export async function authenticateForCalendar(interactive = false) {
-  if (calendarIsSupported) {
-    chrome.identity.getAuthToken({ interactive }, function (token) {
-      if (token) {
-        authenticated.value = true;
-        oauthToken.value = token;
-        updateCalendar();
-      } else {
-        authenticated.value = false;
-        // TODO: Show error in UI? e.g. in options or if error on first auth.
-      }
-    });
+    updateCalendar();
   }
+
+  return state;
 }
 
-async function updateCalendar() {
-  if (authenticated) {
+async function _updateCalendar() {
+  // if authState === AuthState.Authenticated && token !== ""
+
+  if (state?.authenticated.value) {
     const now = new Date();
-    if (now > addMinutes(eventsCachedAt.value, 0)) {
+    if (now > addMinutes(state.eventsCachedAt.value, 0)) {
       const headers = new Headers({
-        Authorization: 'Bearer ' + oauthToken.value,
+        Authorization: 'Bearer ' + state.oauthToken.value,
         'Content-Type': 'application/json',
       });
 
@@ -88,22 +80,37 @@ async function updateCalendar() {
       ).toString();
 
       fetch(calendarEventsListEndpoint.toString(), { headers })
+        .then((response) => {
+          console.log('calendar response', response);
+          if (response.ok) {
+            return response;
+          } else if (response.status === 401) {
+            tokenRejected();
+            throw new Error('Server Rejected Authentication Token');
+          } else {
+            throw new Error('Bad Response');
+            // 403 for exceeded requests (user or api)
+            // 403 for no API token sent with request (never should happen)
+          }
+        })
         .then((response) => response.json()) // Transform the data into json
         .then((data) => {
-          eventsCachedAt.value = new Date();
-          events.value = data.items;
+          if (state) {
+            state.eventsCachedAt.value = new Date();
+            state.events.value = data.items;
+          }
         });
     } else {
       console.log('Using cached events.');
     }
   } else {
-    console.log("Calendar couldn't update. Not autheticated");
+    console.log("Calendar couldn't update. Not authenticated");
   }
 }
 
 /** Export a debounced function to avoid hitting the google api too often */
-// export const updateCalendar = debounce(_updateCalendar, minutesInMs(5))
+export const updateCalendar = debounce(_updateCalendar, minutesInMs(0.1));
 
 export function setCalendarVisible(visible: boolean) {
-  hidden.value = !visible;
+  if (state) state.hidden.value = !visible;
 }
