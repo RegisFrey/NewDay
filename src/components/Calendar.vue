@@ -139,16 +139,23 @@ export default defineComponent({
   async setup() {
     const state = await getState();
 
-    const preparedEvent = state.events.value.map(prepareEvent)
+    const preparedEvents = computed(() => {
+      // Change format to our UI and data needs
+      const preparedEvents = state.events.value.map(prepareEvent)
+      // Split out all day events
+      let [ allDayEvents, upcomingEvents ] = partition(preparedEvents, e => e.isAllDay)
+      // Remove past events
+      upcomingEvents = upcomingEvents.filter(e => !e.isPast)
+      // Put into a new ordering
+      return [...allDayEvents, ...upcomingEvents];
+    })
 
-    let [ allDayEvents, upcomingEvents ] = partition(preparedEvent, e => e.isAllDay)
-    upcomingEvents = upcomingEvents.filter(e => !e.isPast)
     const { authState } = await getAuthStateAndToken();
 
     return {
       // Calendar
       ...state,
-      preparedEvents: [...allDayEvents, ...upcomingEvents],
+      preparedEvents,
       setCalendarVisible,  
       timeInTimezone,
       // Auth
