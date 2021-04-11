@@ -64,7 +64,7 @@
 
       <div class="nd-options__group">
         <h1>Calendar</h1>
-        <template v-if="calendarIsSupported">
+        <template v-if="chromeIdentityIsSupported">
           <label>
             <input type="checkbox" :checked="!calendar.hidden.value" @change="setCalendarVisible(calendar.hidden.value)" />
             Show Calendar Column
@@ -75,8 +75,9 @@
           </template>
           <template v-else>
             <button class="nd-button" @click="authenticateInteractively()">Connect to Google Calendar</button>
-            <div class="nd-error" v-if="authState === AuthState.Error">
+            <div class="nd-error" v-if="authError">
               Could not authenticate.
+              <p>{{ authErrorMessage }}</p>
             </div>
           </template> 
         </template>
@@ -98,11 +99,17 @@
 import { computed, defineComponent, ref } from 'vue';
 import { useElementBoundingWithPosition } from '../helpers/useElementBoundingWithPosition'
 import {
+  AuthState,
+  chromeIdentityIsSupported,
+  authenticateInteractively,
+  deauthenticate,
+  getAuthStateAndToken,
+  authError,
+  authErrorMessage
+} from '../state/auth';
+import {
       setCalendarVisible,
       getState as getCalendarState,
-      calendarIsSupported,
-      authenticateForCalendar,
-      deauthenticate
 } from '../state/calendar';
 import { ThemePreference, getResolvedTheme, getThemePreference } from '../state/theme'
 
@@ -156,16 +163,23 @@ export default defineComponent({
       }
     })
 
+    const { authState } = await getAuthStateAndToken();
+
     return {
       thumbnailTarget, thumbnailClientRect, thumbnailHeight,
       appContainer, appClientRect,
       transform,
+      // AUTH
+      chromeIdentityIsSupported,
+      authenticateInteractively,
+      deauthenticate,
+      AuthState,
+      authState,
+      authError,
+      authErrorMessage,
       // CALENDAR
       setCalendarVisible, // TODO: Debounce
       calendar: calendarState,
-      calendarIsSupported,
-      authenticateForCalendar,
-      deauthenticate,
       // THEME
       ThemePreference,
       themePreference,
@@ -183,6 +197,7 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 300px;
 }
 
 .nd-options__group {

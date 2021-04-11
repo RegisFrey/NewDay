@@ -56,8 +56,9 @@
       <button @click="authenticateInteractively()" class="nd-button">
         Connect to Google Calendar
       </button>
-      <div class="nd-error" v-if="authState === AuthState.Error">
+      <div class="nd-error" v-if="authError">
         Could not authenticate.
+        <p>{{ authErrorMessage }}</p>
       </div>
       or
       <button @click="setCalendarVisible(false)" class="nd-link-button">Hide Calendar Column</button>
@@ -69,12 +70,11 @@
 
 <script lang="ts">
 import type { GoogleCalendarEvent } from '../typings/google-calendar';
-import { defineComponent } from 'vue';
-import { authenticateInteractively } from '../state/auth.ts';
+import { computed, defineComponent } from 'vue';
+import { AuthState, authenticateInteractively, getAuthStateAndToken, authError, authErrorMessage } from '../state/auth';
 import {
   getState,
   setCalendarVisible,
-  authenticateForCalendar,
 } from '../state/calendar';
 import {
   addMinutes,
@@ -143,13 +143,20 @@ export default defineComponent({
 
     let [ allDayEvents, upcomingEvents ] = partition(preparedEvent, e => e.isAllDay)
     upcomingEvents = upcomingEvents.filter(e => !e.isPast)
+    const { authState } = await getAuthStateAndToken();
 
     return {
+      // Calendar
       ...state,
       preparedEvents: [...allDayEvents, ...upcomingEvents],
-      setCalendarVisible,
-      authenticateInteractively,
+      setCalendarVisible,  
       timeInTimezone,
+      // Auth
+      authenticateInteractively,
+      AuthState,
+      authState,
+      authError,
+      authErrorMessage
     };
   },
 });

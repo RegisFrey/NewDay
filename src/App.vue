@@ -181,5 +181,9 @@ a:hover, .nd-link:hover {
   border-left: 4px solid var(--color-warning);
   margin-top: 8px;
   font-weight: bold;
+  max-width: 300px;
+}
+.nd-error p {
+  font-weight: normal;
 }
 </style>
