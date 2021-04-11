@@ -57,5 +57,6 @@ h2 > a {
   display: block;
   color: inherit;
   text-decoration: none;
+  padding: 0;
 }
 </style>
