@@ -133,6 +133,10 @@ export default defineComponent({
     })
 
     const thumbnailHeight = computed(() => appHeightRatio.value * thumbnailClientRect.width.value)
+    // BUG: Fails on portrait aspect windows
+    // Hmmm actually no, maybe just on resize from portrait to landscape or vice versa
+    // can get into states where the reserved thumbnail space and the resized app do not match
+    // (app is larger than thumbnail reserve)
 
     const transform = computed(() => {
       const thumbLeft = thumbnailClientRect.left.value;
