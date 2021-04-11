@@ -3,7 +3,7 @@
     <div v-if="preparedEvents.length === 0">
       The rest of your day is wide open.
       <!-- TODO:FEATURE? You've got 3 events tomorrow -->
-      <!-- TODO:FEATURE? art or effect on the empty state? -->
+      <!-- TODO:FEATURE? Illustration or effect on the empty state? -->
     </div>
     <div
       v-for="entry in preparedEvents"
