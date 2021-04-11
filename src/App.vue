@@ -12,8 +12,8 @@ export default defineComponent({
   name: 'App',
   components: { AppAsync },
   props: {
-    alwaysShowOptions: Boolean,
-  },
+    alwaysShowOptions: { type: Boolean, default: false },
+  }
 });
 </script>
 
