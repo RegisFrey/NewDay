@@ -22,3 +22,6 @@ pids
 
 # Environment variables
 .env
+
+# Mac junk
+.DS_Store
