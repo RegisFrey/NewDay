@@ -1,19 +1,19 @@
 <template>
-  <transition name="nd__todo">
+  <transition name="nd-todo">
     <label
-      class="nd__todo"
-      :class="{ 'nd__todo--checked': completed }"
+      class="nd-todo"
+      :class="{ 'nd-todo--checked': completed }"
     >
       <span
-        class="nd__todo__checkbox"
-        :class="{ 'nd__todo__checkbox--checked': completed }"
+        class="nd-todo__checkbox"
+        :class="{ 'nd-todo__checkbox--checked': completed }"
       />
       <input type="checkbox" :checked="completed" @change="changeChecked" />
 
-      <div class="nd__todo__description__container">
+      <div class="nd-todo__description-container">
         <textarea
           contenteditable="true"
-          class="nd__todo__description"
+          class="nd-todo__description"
           :value="title"
           @input="changeTitle"
           placeholder="What to do?"
@@ -22,7 +22,7 @@
         />
         <div
           aria-hidden="true"
-          class="nd__todo__description--force-size"
+          class="nd-todo__description-force-size"
         >
           {{ title }}
         </div>
@@ -57,11 +57,11 @@ export default defineComponent({
 </script>
 
 <style>
-.nd__todo {
+.nd-todo {
   display: flex;
   margin-bottom: 8px;
 }
-.nd__todo__description__container {
+.nd-todo__description-container {
   position: relative;
   min-height: 0;
   flex: 1;
@@ -69,14 +69,14 @@ export default defineComponent({
 }
 
 /* style hidden sizing text and input to match in size */
-.nd__todo__description,
-.nd__todo__description--force-size {
+.nd-todo__description,
+.nd-todo__description-force-size {
   margin-top: 2px;
   font-size: 1rem;
   font-family: var(--font-family);
 }
 
-.nd__todo__description {
+.nd-todo__description {
   background: transparent;
   border: none;
   color: var(--color-text);
@@ -88,35 +88,36 @@ export default defineComponent({
   left: 0;
   right: 0;
   bottom: 0;
-  /* overflow: hidden; */
 }
-.nd__todo__description--force-size {
+.nd-todo__description-force-size {
   visibility: hidden;
   white-space: pre-wrap;
   word-wrap: break-word;
   overflow-wrap: break-word;
   padding-bottom: 4px;
 }
-.nd__todo .nd__todo__description::placeholder {
+.nd-todo__description::placeholder {
   color: var(--color-text-subtle);
 }
-.nd__todo input:focus,
-.nd__todo__description:focus {
+.nd-todo input:focus,
+.nd-todo__description:focus {
   outline: none;
 }
-.nd__todo--checked,
-.nd__todo--checked .nd__todo__description {
+.nd-todo--checked,
+.nd-todo--checked .nd-todo__description {
   text-decoration: line-through;
   color: var(--color-text-subtle);
 }
-.nd__todo input[type='checkbox'] {
+/* accessibly, hiding the actual checkbox */
+.nd-todo input[type='checkbox'] {
   opacity: 0;
   width: 1px;
   height: 1px;
   position: absolute;
   pointer-events: none;
 }
-.nd__todo__checkbox {
+/* styling a div to look like a checkbox */
+.nd-todo__checkbox {
   display: block;
   height: 22px;
   width: 21px;
@@ -124,7 +125,7 @@ export default defineComponent({
   border-radius: 8px;
   margin-right: 8px;
 }
-.nd__todo__checkbox--checked:after {
+.nd-todo__checkbox--checked:after {
   content: ' ';
   display: block;
   transform: rotate(45deg);
