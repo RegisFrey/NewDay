@@ -1,0 +1,45 @@
+New Day boldly displays the time, date, and day of the week.
+It keeps a synced todo list and notepad on every new tab you open.
+It can show upcoming calendar events from your Google Calendar.
+It's minimal looks help you stay focused.
+
+No data collection, no fuss.
+
+
+bug: clicking check on last todo causes page to get misaligned
+... html / body / app:
+height: 100vh;
+position: absolute;
+top: 0;
+left: 0;
+
+bug: last todo is stuck offscreen
+
+call calendar on a timeout loop
+re-enable debounce of calendar calls
+
+style join calendar page and button
+
+settings page
+  - theme select
+    - theme by OS setting
+  - disable/enable calendar
+
+✅ update oauth URLs to point to github
+
+real json in storage
+
+change out css classes for nd- and cleaner formating segmented by component
+
+BUG: settings thumbnail lags when resizing - remove animation transition time once in place (add back when transitions)
+
+BUG: Max Write on toggling settings quickly - https://stackoverflow.com/questions/66092333/chrome-extension-max-write-operations-per-minute-error
+
+Rewrite Storage handlers to be both synchronous (against Default OR LocalStorage AND LATER asynchronous against chrome storage)
+
+Style the calendar login prompt
+Record Oauth consent video
+    https://www.cloudsponge.com/blog/google-oauth-verification-video/
+    https://console.cloud.google.com/apis/credentials/consent/edit;verificationMode=true?authuser=1&project=new-day-303321
+
+Oh turn back on calendar debounce + add calendar update check loop (at least every couple minutes, every 5m? across all tabs)

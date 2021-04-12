@@ -13,7 +13,7 @@
       </div>
     </div>
     
-    <button @click="$emit('close')" v-if="canClose" class="nd-close-options-button">Close Options</button>
+    <button @click="$emit('close')" v-if="canClose" class="nd-link-button">Close Options</button>
 
     <div
       class="nd-options__app-thumbnail"
@@ -64,17 +64,29 @@
 
       <div class="nd-options__group">
         <h1>Calendar</h1>
-        
-        <label>
-          <input type="checkbox" :checked="!calendar.hidden.value" @change="setCalendarVisible(calendar.hidden.value)" />
-          Show Calendar Column
-        </label>
-
-        <!-- TODO: Auth errors? reauth? -->
-        <!-- TODO: if calendar unsupported (e.g. not chrome), explain -->
+        <template v-if="chromeIdentityIsSupported">
+          <label>
+            <input type="checkbox" :checked="!calendar.hidden.value" @change="setCalendarVisible(calendar.hidden.value)" />
+            Show Calendar Column
+          </label>
+          <br/>
+          <template v-if="authState === AuthState.Authenticated">
+            <button class="nd-button" @click="deauthenticate()">Disconnect from Google Calendar</button> 
+          </template>
+          <template v-else>
+            <button class="nd-button" @click="authenticateInteractively()">Connect to Google Calendar</button>
+            <div class="nd-error" v-if="authError">
+              Could not authenticate.
+              <p>{{ authErrorMessage }}</p>
+            </div>
+          </template> 
+        </template>
+        <template v-else>
+          Calendar display relies on features not available in this browser.
+        </template>
       </div>
 
-      <div class="nd-options__group nd-options-details">
+      <div class="nd-options-details">
         Icons from <a href="https://feathericons.com/">Feather</a> under the MIT license.
       </div>
     
@@ -87,9 +99,17 @@
 import { computed, defineComponent, ref } from 'vue';
 import { useElementBoundingWithPosition } from '../helpers/useElementBoundingWithPosition'
 import {
+  AuthState,
+  chromeIdentityIsSupported,
+  authenticateInteractively,
+  deauthenticate,
+  getAuthStateAndToken,
+  authError,
+  authErrorMessage
+} from '../state/auth';
+import {
       setCalendarVisible,
       getState as getCalendarState,
-      // calendarIsSupported,
 } from '../state/calendar';
 import { ThemePreference, getResolvedTheme, getThemePreference } from '../state/theme'
 
@@ -126,11 +146,9 @@ export default defineComponent({
       const appHeight = appClientRect.height.value;
 
       const scaleX = thumbWidth / appWidth;
-      // const scaleXInverse =  appWidth / thumbWidth;
       const scaleY = thumbHeight / appHeight;
-      // const scaleYInverse = appHeight / thumbHeight;
-      const translateX = (thumbLeft - appLeft);// * scaleXInverse;
-      const translateY = (thumbTop - appTop);// * scaleYInverse;
+      const translateX = (thumbLeft - appLeft);
+      const translateY = (thumbTop - appTop);
 
       if (props.showOptions) {
         return {
@@ -145,13 +163,23 @@ export default defineComponent({
       }
     })
 
+    const { authState } = await getAuthStateAndToken();
+
     return {
       thumbnailTarget, thumbnailClientRect, thumbnailHeight,
       appContainer, appClientRect,
       transform,
+      // AUTH
+      chromeIdentityIsSupported,
+      authenticateInteractively,
+      deauthenticate,
+      AuthState,
+      authState,
+      authError,
+      authErrorMessage,
       // CALENDAR
       setCalendarVisible, // TODO: Debounce
-      calendar: calendarState, 
+      calendar: calendarState,
       // THEME
       ThemePreference,
       themePreference,
@@ -169,6 +197,16 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 300px;
+}
+
+.nd-options__group {
+  display: flex;
+  flex-direction: column;
+}
+
+.nd-options__group h1 {
+  margin-bottom: 4px;
 }
 
 .nd-options__groups {
@@ -216,12 +254,6 @@ export default defineComponent({
 .nd-options__app-thumbnail {
   width: 30%;
   margin: 20px;
-}
-
-.nd-close-options-button {
-    border: none;
-    background: transparent;
-    color: var(--color-link);
 }
 
 .nd-options-details {

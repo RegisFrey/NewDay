@@ -2,7 +2,7 @@
   <div class="splash-pad__content">
     <div
       class="splash-pad__calendar"
-      v-if="calendarIsSupported && !calendarIsHidden"
+      v-if="chromeIdentityIsSupported && !calendarIsHidden"
     >
       <h2 class="splash-pad__section-head">
         <a href="https://calendar.google.com">
@@ -31,9 +31,11 @@ import Todos from './Todos.vue';
 import Calendar from './Calendar.vue';
 import Notepad from './Notepad.vue';
 import {
+  chromeIdentityIsSupported,
+} from '../state/auth';
+import {
   setCalendarVisible,
   getState,
-  calendarIsSupported,
 } from '../state/calendar';
 
 export default defineComponent({
@@ -42,9 +44,8 @@ export default defineComponent({
   async setup() {
     const calendarState = await getState();
     return {
-      calendarIsSupported,
+      chromeIdentityIsSupported,
       calendarIsHidden: calendarState.hidden,
-      calendarIsAuthenticated: calendarState.authenticated,
       setCalendarVisible,
     };
   },

@@ -6,6 +6,7 @@ import { debounce } from './debounce';
 export async function useStorageValue<T>(
   key: string,
   defaultValue: T,
+  existingRef: Ref<T>|undefined = undefined,
   debounceTimeout = 500
 ): Promise<Ref<T>> {
 
@@ -16,7 +17,14 @@ export async function useStorageValue<T>(
   const valueParsed = foundValue
     ? (JSON.parse(valueFromStorage[key], jsonDateReviver) as T)
     : defaultValue;
-  const valueRef = ref(valueParsed) as Ref<T>;
+
+  // initialize ref and set value of existingRef if already existed
+  const valueRef = existingRef ?
+    existingRef :
+    ref(valueParsed) as Ref<T>;
+  if (existingRef) {
+    existingRef.value = valueParsed;
+  }
 
   // handle "This request exceeds the MAX_WRITE_OPERATIONS_PER_MINUTE quota." errors
   // by queuing against localStorage state?

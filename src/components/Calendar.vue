@@ -1,5 +1,5 @@
 <template>
-  <div class="splash-pad-calendar" v-if="authenticated">
+  <div class="splash-pad-calendar" v-if="authState === AuthState.Authenticated">
     <div v-if="preparedEvents.length === 0">
       The rest of your day is wide open.
       <!-- TODO:FEATURE? You've got 3 events tomorrow -->
@@ -49,24 +49,32 @@
       <p v-if="!entry.isAllDay">{{ entry.title }}</p>
     </div>
   </div>
-  <div class="splash-pad-calendar splash-pad-calendar--authenticate" v-else>
+  <div class="splash-pad-calendar" v-else>
     New Day can display upcoming events from your calendars.
 
-    <button @click="authenticateForCalendar(true)">
-      Connect to Google Calendar
-    </button>
-    or
-    <button @click="setCalendarVisible(false)">Hide Calendar Column</button>
+    <div class="nd-calendar--authenticate">
+      <button @click="authenticateInteractively()" class="nd-button">
+        Connect to Google Calendar
+      </button>
+      <div class="nd-error" v-if="authError">
+        Could not authenticate.
+        <p>{{ authErrorMessage }}</p>
+      </div>
+      or
+      <button @click="setCalendarVisible(false)" class="nd-link-button">Hide Calendar Column</button>
+    </div>
+
+    
   </div>
 </template>
 
 <script lang="ts">
 import type { GoogleCalendarEvent } from '../typings/google-calendar';
-import { defineComponent } from 'vue';
+import { computed, defineComponent } from 'vue';
+import { AuthState, authenticateInteractively, getAuthStateAndToken, authError, authErrorMessage } from '../state/auth';
 import {
   getState,
   setCalendarVisible,
-  authenticateForCalendar,
 } from '../state/calendar';
 import {
   addMinutes,
@@ -131,17 +139,31 @@ export default defineComponent({
   async setup() {
     const state = await getState();
 
-    const preparedEvent = state.events.value.map(prepareEvent)
+    const preparedEvents = computed(() => {
+      // Change format to our UI and data needs
+      const preparedEvents = state.events.value.map(prepareEvent)
+      // Split out all day events
+      let [ allDayEvents, upcomingEvents ] = partition(preparedEvents, e => e.isAllDay)
+      // Remove past events
+      upcomingEvents = upcomingEvents.filter(e => !e.isPast)
+      // Put into a new ordering
+      return [...allDayEvents, ...upcomingEvents];
+    })
 
-    let [ allDayEvents, upcomingEvents ] = partition(preparedEvent, e => e.isAllDay)
-    upcomingEvents = upcomingEvents.filter(e => !e.isPast)
+    const { authState } = await getAuthStateAndToken();
 
     return {
+      // Calendar
       ...state,
-      preparedEvents: [...allDayEvents, ...upcomingEvents],
-      setCalendarVisible,
-      authenticateForCalendar,
+      preparedEvents,
+      setCalendarVisible,  
       timeInTimezone,
+      // Auth
+      authenticateInteractively,
+      AuthState,
+      authState,
+      authError,
+      authErrorMessage
     };
   },
 });
@@ -172,5 +194,12 @@ export default defineComponent({
   height: 24px;
   stroke: var(--color-text-subtle);
   vertical-align: middle;
+}
+
+.nd-calendar--authenticate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 16px;
 }
 </style>
