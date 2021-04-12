@@ -1,19 +1,19 @@
 <template>
-  <transition name="splash-pad__todo">
+  <transition name="nd__todo">
     <label
-      class="splash-pad__todo"
-      :class="{ 'splash-pad__todo--checked': completed }"
+      class="nd__todo"
+      :class="{ 'nd__todo--checked': completed }"
     >
       <span
-        class="splash-pad__todo__checkbox"
-        :class="{ 'splash-pad__todo__checkbox--checked': completed }"
+        class="nd__todo__checkbox"
+        :class="{ 'nd__todo__checkbox--checked': completed }"
       />
       <input type="checkbox" :checked="completed" @change="changeChecked" />
 
-      <div class="splash-pad__todo__description__container">
+      <div class="nd__todo__description__container">
         <textarea
           contenteditable="true"
-          class="splash-pad__todo__description"
+          class="nd__todo__description"
           :value="title"
           @input="changeTitle"
           placeholder="What to do?"
@@ -22,7 +22,7 @@
         />
         <div
           aria-hidden="true"
-          class="splash-pad__todo__description--force-size"
+          class="nd__todo__description--force-size"
         >
           {{ title }}
         </div>
@@ -57,11 +57,11 @@ export default defineComponent({
 </script>
 
 <style>
-.splash-pad__todo {
+.nd__todo {
   display: flex;
   margin-bottom: 8px;
 }
-.splash-pad__todo__description__container {
+.nd__todo__description__container {
   position: relative;
   min-height: 0;
   flex: 1;
@@ -69,14 +69,14 @@ export default defineComponent({
 }
 
 /* style hidden sizing text and input to match in size */
-.splash-pad__todo__description,
-.splash-pad__todo__description--force-size {
+.nd__todo__description,
+.nd__todo__description--force-size {
   margin-top: 2px;
   font-size: 1rem;
   font-family: var(--font-family);
 }
 
-.splash-pad__todo__description {
+.nd__todo__description {
   background: transparent;
   border: none;
   color: var(--color-text);
@@ -90,33 +90,33 @@ export default defineComponent({
   bottom: 0;
   /* overflow: hidden; */
 }
-.splash-pad__todo__description--force-size {
+.nd__todo__description--force-size {
   visibility: hidden;
   white-space: pre-wrap;
   word-wrap: break-word;
   overflow-wrap: break-word;
   padding-bottom: 4px;
 }
-.splash-pad__todo .splash-pad__todo__description::placeholder {
+.nd__todo .nd__todo__description::placeholder {
   color: var(--color-text-subtle);
 }
-.splash-pad__todo input:focus,
-.splash-pad__todo__description:focus {
+.nd__todo input:focus,
+.nd__todo__description:focus {
   outline: none;
 }
-.splash-pad__todo--checked,
-.splash-pad__todo--checked .splash-pad__todo__description {
+.nd__todo--checked,
+.nd__todo--checked .nd__todo__description {
   text-decoration: line-through;
   color: var(--color-text-subtle);
 }
-.splash-pad__todo input[type='checkbox'] {
+.nd__todo input[type='checkbox'] {
   opacity: 0;
   width: 1px;
   height: 1px;
   position: absolute;
   pointer-events: none;
 }
-.splash-pad__todo__checkbox {
+.nd__todo__checkbox {
   display: block;
   height: 22px;
   width: 21px;
@@ -124,7 +124,7 @@ export default defineComponent({
   border-radius: 8px;
   margin-right: 8px;
 }
-.splash-pad__todo__checkbox--checked:after {
+.nd__todo__checkbox--checked:after {
   content: ' ';
   display: block;
   transform: rotate(45deg);

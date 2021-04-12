@@ -1,10 +1,10 @@
 <template>
-  <div class="splash-pad__content">
+  <div class="nd__content">
     <div
-      class="splash-pad__calendar"
+      class="nd__calendar"
       v-if="chromeIdentityIsSupported && !calendarIsHidden"
     >
-      <h2 class="splash-pad__section-head">
+      <h2 class="nd__section-head">
         <a href="https://calendar.google.com">
         Today
         </a>
@@ -12,13 +12,13 @@
       <Suspense><Calendar /></Suspense>
     </div>
 
-    <div class="splash-pad__todos">
-      <h2 class="splash-pad__section-head">Todo</h2>
+    <div class="nd__todos">
+      <h2 class="nd__section-head">Todo</h2>
       <Suspense><Todos /></Suspense>
     </div>
 
-    <div class="splash-pad__notes">
-      <h2 class="splash-pad__section-head">Notes</h2>
+    <div class="nd__notes">
+      <h2 class="nd__section-head">Notes</h2>
       <Suspense><Notepad /></Suspense>
     </div>
   </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="splash-pad-calendar" v-if="authState === AuthState.Authenticated">
+  <div class="nd-calendar" v-if="authState === AuthState.Authenticated">
     <div v-if="preparedEvents.length === 0">
       The rest of your day is wide open.
       <!-- TODO:FEATURE? You've got 3 events tomorrow -->
@@ -8,16 +8,16 @@
     <div
       v-for="entry in preparedEvents"
       :key="entry.id"
-      class="splash-pad__calendar__entry"
+      class="nd__calendar__entry"
       :class="{
-        'splash-pad__calendar__entry--now': entry.isSoonOrNow,
+        'nd__calendar__entry--now': entry.isSoonOrNow,
       }"
     >
-      <b class="splash-pad__start__time">
+      <b class="nd__start__time">
         {{ entry.isAllDay ? entry.title : timeInTimezone(entry.start) }}
-        <a :href="entry.calendarLink" class="splash-pad__cal-link">
+        <a :href="entry.calendarLink" class="nd__cal-link">
           <svg
-            class="splash-pad__cal-icon splash-pad__cal-icon--link"
+            class="nd__cal-icon nd__cal-icon--link"
             viewBox="0 0 24 24"
             fill="none"
             stroke-width="2"
@@ -31,9 +31,9 @@
           </svg>
           <!-- Feather - https://github.com/feathericons/feather - Link Alternative 2 - MIT License -->
         </a>
-        <a v-if="entry.joinLink" :href="entry.joinLink" class="splash-pad__cal-link">
+        <a v-if="entry.joinLink" :href="entry.joinLink" class="nd__cal-link">
           <svg
-            class="splash-pad__cal-icon splash-pad__cal-icon--video-call"
+            class="nd__cal-icon nd__cal-icon--video-call"
             viewBox="0 0 24 24"
             fill="none"
             stroke-width="2"
@@ -49,7 +49,7 @@
       <p v-if="!entry.isAllDay">{{ entry.title }}</p>
     </div>
   </div>
-  <div class="splash-pad-calendar" v-else>
+  <div class="nd-calendar" v-else>
     New Day can display upcoming events from your calendars.
 
     <div class="nd-calendar--authenticate">
@@ -170,26 +170,26 @@ export default defineComponent({
 </script>
 
 <style>
-.splash-pad__start__time {
+.nd__start__time {
   font-size: 1.5rem;
 }
 
-.splash-pad__calendar__entry {
+.nd__calendar__entry {
   display: flex;
   flex-direction: column;
   border-top: 1px solid var(--color-linework);
   padding-bottom: 8px;
 }
 
-.splash-pad__calendar__entry--now {
+.nd__calendar__entry--now {
   color: var(--color-warning);
 }
 
-.splash-pad__cal-link {
+.nd__cal-link {
   padding: 0 8px;
 }
 
-.splash-pad__cal-icon {
+.nd__cal-icon {
   width: 24px;
   height: 24px;
   stroke: var(--color-text-subtle);

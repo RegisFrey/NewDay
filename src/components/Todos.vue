@@ -1,5 +1,5 @@
 <template>
-  <div class="splash-pad-todos">
+  <div class="nd-todos">
     <Todo
       v-for="(todo, index) in todos"
       :key="'todo-' + index"
@@ -86,7 +86,7 @@ export default defineComponent({
 </script>
 
 <style>
-.splash-pad-todos {
+.nd-todos {
   overflow-y: scroll;
   overflow-x: hidden;
 }

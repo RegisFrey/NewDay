@@ -1,9 +1,9 @@
 <template>
-  <div class="splash-pad__today">
+  <div class="nd__today">
     <h1>
-      <span class="splash-pad__hour">{{ time }}</span>
-      <span class="splash-pad__day">{{ day }}</span>
-      <span class="splash-pad__date">{{ date }}</span>
+      <span class="nd__hour">{{ time }}</span>
+      <span class="nd__day">{{ day }}</span>
+      <span class="nd__date">{{ date }}</span>
     </h1>
   </div>
 </template>

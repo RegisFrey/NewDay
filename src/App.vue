@@ -27,7 +27,7 @@ export default defineComponent({
 html,
 body,
 #app,
-.splash-pad {
+.nd {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -73,27 +73,27 @@ body,
   --color-warning: rgb(249, 97, 80);
 }
 
-.splash-pad {
+.nd {
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
-.splash-pad__content {
+.nd__content {
   display: flex;
   flex-direction: row;
   flex: 1;
   min-height: 0;
 }
 
-.splash-pad__today {
+.nd__today {
   display: flex;
   flex-direction: column;
   padding: 20px;
   padding-bottom: 10px;
 }
 
-.splash-pad__calendar {
+.nd__calendar {
   display: flex;
   flex-direction: column;
   padding: 10px 20px;
@@ -101,7 +101,7 @@ body,
   padding-bottom: 0;
 }
 
-.splash-pad__todos {
+.nd__todos {
   display: flex;
   flex-direction: column;
   padding: 10px 20px;
@@ -109,7 +109,7 @@ body,
   padding-bottom: 0;
 }
 
-.splash-pad__notes {
+.nd__notes {
   display: flex;
   flex-direction: column;
   padding: 10px 20px;
@@ -117,28 +117,28 @@ body,
   padding-bottom: 0;
 }
 
-.splash-pad__hour,
-.splash-pad__day,
-.splash-pad__date {
+.nd__hour,
+.nd__day,
+.nd__date {
   display: block;
 }
 
-.splash-pad__hour {
+.nd__hour {
   font-size: 4rem;
   line-height: 2.5rem;
 }
-.splash-pad__day {
+.nd__day {
   font-size: 3rem;
   line-height: 3rem;
   text-transform: uppercase;
 }
-.splash-pad__date {
+.nd__date {
   font-size: 2rem;
   line-height: 2rem;
   color: var(--color-text-subtle);
 }
 
-.splash-pad__section-head {
+.nd__section-head {
   text-transform: uppercase;
   font-size: 1rem;
   line-height: 1rem;

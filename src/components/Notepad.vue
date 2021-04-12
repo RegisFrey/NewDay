@@ -1,6 +1,6 @@
 <template>
-  <div class="splash-pad-notes__scrollbox">
-    <div class="splash-pad-notes" ref="editor"></div>
+  <div class="nd-notes__scrollbox">
+    <div class="nd-notes" ref="editor"></div>
   </div>
 </template>
 
@@ -59,7 +59,7 @@ export default defineComponent({
 </script>
 
 <style>
-.splash-pad-notes__scrollbox {
+.nd-notes__scrollbox {
   --notes-padding-top: 8px;
   flex: 1;
   min-height: 0;
@@ -79,7 +79,7 @@ export default defineComponent({
   /* border-bottom: 20px solid transparent; */
 }
 /* Add an overlay gradient at top of text scroll off */
-.splash-pad-notes__scrollbox::after {
+.nd-notes__scrollbox::after {
   content: ' ';
   position: absolute;
   top: var(--notes-padding-top);
@@ -90,7 +90,7 @@ export default defineComponent({
     var(--color-surface-transparent)
   );
 }
-.splash-pad-notes {
+.nd-notes {
   min-height: 100%;
   --notes-font-size-base: 18px;
   --notes-font-size-large: 24px;
@@ -106,46 +106,46 @@ export default defineComponent({
   margin-left: -8px;
   padding-left: 8px;
 }
-.splash-pad-notes:focus {
+.nd-notes:focus {
   outline: none;
 }
 
 /* CONTENT THEME */
-.splash-pad-notes h1,
-.splash-pad-notes h2,
-.splash-pad-notes h3,
+.nd-notes h1,
+.nd-notes h2,
+.nd-notes h3,
 p {
   margin: 0;
   padding: 0;
 }
-.splash-pad-notes h1 {
+.nd-notes h1 {
   font-size: var(--notes-font-size-large);
   font-weight: bold;
 }
-.splash-pad-notes h2 {
+.nd-notes h2 {
   font-size: var(--notes-font-size-large);
   font-weight: normal;
 }
-.splash-pad-notes h3 {
+.nd-notes h3 {
   font-size: var(--notes-font-size-base);
   font-weight: bold;
 }
-.splash-pad-notes p {
+.nd-notes p {
   padding-bottom: 8px;
   font-size: var(--notes-font-size-base);
 }
-.splash-pad-notes ol,
-.splash-pad-notes ul {
+.nd-notes ol,
+.nd-notes ul {
   padding: 8px;
   padding-left: 10px;
   margin: 0;
   margin-left: 8px;
 }
-.splash-pad-notes li:before {
+.nd-notes li:before {
   content: '';
   margin-left: -2px;
 }
-.splash-pad-notes blockquote {
+.nd-notes blockquote {
   border-left: 4px solid var(--color-linework-emphasized);
   padding: 4px 8px;
   padding-left: 12px; /* 16 - 4 */

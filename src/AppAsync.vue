@@ -1,7 +1,7 @@
 <template>
 <Suspense>
   <Options
-    class="splash-pad"
+    class="nd"
     :class="{
       'nd-theme--light': theme == ThemePreference.Light,
       'nd-theme--dark': theme == ThemePreference.Dark 
@@ -10,7 +10,7 @@
     :showOptions="showOptions"
     :canClose="!alwaysShowOptions"
     >
-    <header class="splash-pad__header">
+    <header class="nd__header">
       <Clock />
       <button class="nd-options-button" @click="showOptions = !showOptions">
           <svg
