@@ -8,16 +8,16 @@
     <div
       v-for="entry in preparedEvents"
       :key="entry.id"
-      class="nd__calendar__entry"
+      class="nd-calendar__entry"
       :class="{
-        'nd__calendar__entry--now': entry.isSoonOrNow,
+        'nd-calendar__entry--now': entry.isSoonOrNow,
       }"
     >
-      <b class="nd__start__time">
+      <b class="nd-calendar__entry__starting-time">
         {{ entry.isAllDay ? entry.title : timeInTimezone(entry.start) }}
-        <a :href="entry.calendarLink" class="nd__cal-link">
+        <a :href="entry.calendarLink" class="nd-calendar__link">
           <svg
-            class="nd__cal-icon nd__cal-icon--link"
+            class="nd-calendar__icon nd-calendar__icon--link"
             viewBox="0 0 24 24"
             fill="none"
             stroke-width="2"
@@ -31,9 +31,9 @@
           </svg>
           <!-- Feather - https://github.com/feathericons/feather - Link Alternative 2 - MIT License -->
         </a>
-        <a v-if="entry.joinLink" :href="entry.joinLink" class="nd__cal-link">
+        <a v-if="entry.joinLink" :href="entry.joinLink" class="nd-calendar__link">
           <svg
-            class="nd__cal-icon nd__cal-icon--video-call"
+            class="nd-calendar__icon nd-calendar__icon--video-call"
             viewBox="0 0 24 24"
             fill="none"
             stroke-width="2"
@@ -52,7 +52,7 @@
   <div class="nd-calendar" v-else>
     New Day can display upcoming events from your calendars.
 
-    <div class="nd-calendar--authenticate">
+    <div class="nd-calendar__authenticate">
       <button @click="authenticateInteractively()" class="nd-button">
         Connect to Google Calendar
       </button>
@@ -170,33 +170,33 @@ export default defineComponent({
 </script>
 
 <style>
-.nd__start__time {
-  font-size: 1.5rem;
-}
-
-.nd__calendar__entry {
+.nd-calendar__entry {
   display: flex;
   flex-direction: column;
   border-top: 1px solid var(--color-linework);
   padding-bottom: 8px;
 }
 
-.nd__calendar__entry--now {
+.nd-calendar__entry__starting-time {
+  font-size: 1.5rem;
+}
+
+.nd-calendar__entry--now {
   color: var(--color-warning);
 }
 
-.nd__cal-link {
+.nd-calendar__link {
   padding: 0 8px;
 }
 
-.nd__cal-icon {
+.nd-calendar__icon {
   width: 24px;
   height: 24px;
   stroke: var(--color-text-subtle);
   vertical-align: middle;
 }
 
-.nd-calendar--authenticate {
+.nd-calendar__authenticate {
   display: flex;
   flex-direction: column;
   align-items: center;
