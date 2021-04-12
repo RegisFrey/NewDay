@@ -135,6 +135,9 @@ p {
   border: none;
   border-radius: 50px;
 }
+.medium-editor-toolbar a:hover {
+  color: var(--color-link-inverse);
+}
 .medium-editor-toolbar li button {
   background-color: transparent;
   border: none;
@@ -180,24 +183,8 @@ p {
   padding-left: 16px;
   width: 220px;
 }
-.medium-editor-toolbar-form
-  .medium-editor-toolbar-input::-webkit-input-placeholder {
-  color: #f8f5f3;
-  color: rgba(248, 245, 243, 0.8);
-}
-.medium-editor-toolbar-form .medium-editor-toolbar-input:-moz-placeholder {
-  /* Firefox 18- */
-  color: #f8f5f3;
-  color: rgba(248, 245, 243, 0.8);
-}
-.medium-editor-toolbar-form .medium-editor-toolbar-input::-moz-placeholder {
-  /* Firefox 19+ */
-  color: #f8f5f3;
-  color: rgba(248, 245, 243, 0.8);
-}
-.medium-editor-toolbar-form .medium-editor-toolbar-input:-ms-input-placeholder {
-  color: #f8f5f3;
-  color: rgba(248, 245, 243, 0.8);
+.medium-editor-toolbar-form .medium-editor-toolbar-input::placeholder {
+  color: var(--color-text-inverse-subtle);
 }
 .medium-editor-toolbar-form a {
   color: var(--color-text-inverse);

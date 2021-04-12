@@ -18,6 +18,7 @@ export default defineComponent({
 </script>
 
 <style>
+/* TODO: embed font */
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,800;1,400&display=swap');
 
 /**** Varaibles and theme ****/
@@ -34,9 +35,11 @@ export default defineComponent({
   --color-text: #716e6d;
   --color-text-inverse: #c7c7c7;
   --color-text-subtle: #969595;
+  --color-text-inverse-subtle: rgb(148, 148, 148);
   --color-highlight: rgb(242, 87, 21);
   --color-link: #0a86d3;
   --color-link-emph: #0374bb;
+  --color-link-inverse: #64bbd3;
   --color-link-bg-hover: #0a86d317;
   --color-warning-subtle: rgba(242, 87, 21, 0.2);
   --color-warning: rgb(242, 87, 21);
@@ -44,13 +47,18 @@ export default defineComponent({
 
 .nd-theme--dark {
   --color-surface: rgb(30, 30, 30);
+  --color-surface-inverse: #dcdcdc;
   --color-surface-transparent: rgba(30, 30, 30, 0);
   --color-linework: rgb(69, 69, 69);
   --color-linework-emphasized: rgb(89, 89, 89);
   --color-text: #c7c7c7;
+  --color-text-inverse: #3c3c3c;
   --color-text-subtle: #767676;
+  --color-text-inverse-subtle: rgb(169, 169, 169);
+  /* --color-highlight: rgb(242, 87, 21); /* fall through to :root */
   --color-link: #0c7d9d;
   --color-link-emph: #25b9e2;
+  --color-link-inverse: #1082a2;
   --color-link-bg-hover: #0a86d317;
   --color-warning-subtle: rgba(249, 97, 80, 0.2);
   --color-warning: rgb(249, 97, 80);

@@ -1,10 +1,6 @@
 <template>
 <Suspense>
   <Options
-    :class="{
-      'nd-theme--light': theme == ThemePreference.Light,
-      'nd-theme--dark': theme == ThemePreference.Dark 
-    }"
     class="nd-root"
     @close="showOptions = false"
     :showOptions="showOptions"
@@ -33,11 +29,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import Columns from './components/Columns.vue';
 import Clock from './components/Clock.vue';
 import Options from './components/Options.vue';
 import { getResolvedTheme, ThemePreference } from './state/theme';
+
+const THEME_LIGHT_CLASS = 'nd-theme--light'
+const THEME_DARK_CLASS = 'nd-theme--dark'
 
 export default defineComponent({
   name: 'AppAsync',
@@ -48,8 +47,19 @@ export default defineComponent({
   async setup (props) {
     const showOptions = ref(props.alwaysShowOptions || false)
     let theme = await getResolvedTheme();
+    // Instead of setting on the .nd-root div we set on body,
+    // because MediumEditor appends its divs outside of Vue's scope.
+    watch(theme, (currentTheme) => {
+      if (currentTheme == ThemePreference.Light) {
+        document.body.classList.remove(THEME_DARK_CLASS);
+        document.body.classList.add(THEME_LIGHT_CLASS);
+      } else if (currentTheme == ThemePreference.Dark) {
+        document.body.classList.remove(THEME_LIGHT_CLASS);
+        document.body.classList.add(THEME_DARK_CLASS);
+      }
+    }, { immediate: true })
     return { showOptions, theme, ThemePreference }
-  },
+  }
 });
 </script>
 
