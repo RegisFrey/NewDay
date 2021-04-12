@@ -20,26 +20,9 @@ export default defineComponent({
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,800;1,400&display=swap');
 
+/**** Varaibles and theme ****/
 :root {
   --font-family: 'Open Sans', sans-serif;
-}
-
-html,
-body,
-#app,
-.nd {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  padding: 0;
-  margin: 0;
-  background-color: var(--color-surface);
-  color: var(--color-text);
-  font-family: var(--font-family);
-  box-sizing: border-box;
 }
 
 :root, .nd-theme--light {
@@ -73,48 +56,36 @@ body,
   --color-warning: rgb(249, 97, 80);
 }
 
-.nd {
-  display: flex;
-  flex-direction: column;
+/**** App Layout ****/
+html,
+body,
+#app,
+.nd-root { /* .nd-root defined in AppAsync */
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
   overflow: hidden;
+  padding: 0;
+  margin: 0;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  box-sizing: border-box;
 }
 
-.nd__content {
-  display: flex;
-  flex-direction: row;
-  flex: 1;
-  min-height: 0;
-}
-
-.nd__calendar {
-  display: flex;
-  flex-direction: column;
-  padding: 10px 20px;
-  flex: 3;
-  padding-bottom: 0;
-}
-
-.nd__todos {
-  display: flex;
-  flex-direction: column;
-  padding: 10px 20px;
-  flex: 4;
-  padding-bottom: 0;
-}
-
-.nd__notes {
-  display: flex;
-  flex-direction: column;
-  padding: 10px 20px;
-  flex: 8;
-  padding-bottom: 0;
-}
-
-.nd__section-head {
-  text-transform: uppercase;
-  font-size: 1rem;
-  line-height: 1rem;
-  color: var(--color-text-subtle);
+/**** Global Styles (hidden text, links, buttons) ****/
+.screen-reader-text {
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    pointer-events: none;
 }
 
 a, .nd-link, .nd-link-button {

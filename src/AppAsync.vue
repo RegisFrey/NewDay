@@ -1,11 +1,11 @@
 <template>
 <Suspense>
   <Options
-    class="nd"
     :class="{
       'nd-theme--light': theme == ThemePreference.Light,
       'nd-theme--dark': theme == ThemePreference.Dark 
     }"
+    class="nd-root"
     @close="showOptions = false"
     :showOptions="showOptions"
     :canClose="!alwaysShowOptions"
@@ -54,17 +54,15 @@ export default defineComponent({
 </script>
 
 <style>
-.screen-reader-text {
-    clip: rect(1px, 1px, 1px, 1px);
-    clip-path: inset(50%);
-    height: 1px;
-    width: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    pointer-events: none;
+.nd-root {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
+/*
+This is the button to trigger the options
+(no __ because in this case it is owned by App not options)
+*/
 .nd-options-button {
     border: none;
     background: transparent;
