@@ -1,9 +1,9 @@
 <template>
-  <div class="nd__today">
+  <div class="nd-clock">
     <h1>
-      <span class="nd__hour">{{ time }}</span>
-      <span class="nd__day">{{ day }}</span>
-      <span class="nd__date">{{ date }}</span>
+      <span class="nd-clock__hour">{{ time }}</span>
+      <span class="nd-clock__day">{{ day }}</span>
+      <span class="nd-clock__date">{{ date }}</span>
     </h1>
   </div>
 </template>
@@ -54,3 +54,33 @@ export default defineComponent({
   },
 });
 </script>
+
+<style>
+.nd-clock {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  padding-bottom: 10px;
+}
+
+.nd-clock__hour,
+.nd-clock__day,
+.nd-clock__date {
+  display: block;
+}
+
+.nd-clock__hour {
+  font-size: 4rem;
+  line-height: 2.5rem;
+}
+.nd-clock__day {
+  font-size: 3rem;
+  line-height: 3rem;
+  text-transform: uppercase;
+}
+.nd-clock__date {
+  font-size: 2rem;
+  line-height: 2rem;
+  color: var(--color-text-subtle);
+}
+</style>

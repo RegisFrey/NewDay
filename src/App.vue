@@ -86,13 +86,6 @@ body,
   min-height: 0;
 }
 
-.nd__today {
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  padding-bottom: 10px;
-}
-
 .nd__calendar {
   display: flex;
   flex-direction: column;
@@ -115,27 +108,6 @@ body,
   padding: 10px 20px;
   flex: 8;
   padding-bottom: 0;
-}
-
-.nd__hour,
-.nd__day,
-.nd__date {
-  display: block;
-}
-
-.nd__hour {
-  font-size: 4rem;
-  line-height: 2.5rem;
-}
-.nd__day {
-  font-size: 3rem;
-  line-height: 3rem;
-  text-transform: uppercase;
-}
-.nd__date {
-  font-size: 2rem;
-  line-height: 2rem;
-  color: var(--color-text-subtle);
 }
 
 .nd__section-head {
