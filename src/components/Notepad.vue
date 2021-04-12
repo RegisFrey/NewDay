@@ -1,14 +1,11 @@
 <template>
-  <div class="nd-notes__scrollbox">
-    <div class="nd-notes" ref="editor"></div>
-  </div>
+  <div class="nd-notes" ref="editor"></div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, Ref, watch } from 'vue';
 import MediumEditor from 'medium-editor';
 import 'medium-editor/dist/css/medium-editor.css';
-// import 'medium-editor/dist/css/themes/beagle.css'; // copied and usin own css variables
 import { loadNotes } from '../state/notes';
 
 export default defineComponent({
@@ -59,37 +56,6 @@ export default defineComponent({
 </script>
 
 <style>
-.nd-notes__scrollbox {
-  --notes-padding-top: 8px;
-  flex: 1;
-  min-height: 0;
-
-  position: relative;
-
-  /* Don't cutoff the top of first line */
-  padding-top: var(--notes-padding-top);
-  margin-top: calc(-1 * var(--notes-padding-top));
-
-  /*
-    Pull bottom to edge of window frame.
-    Allow aligning bottom of text content to other column bottoms
-    Using border vs padding to push up scrollbar.
-  */
-  /* margin-bottom: -20px; */
-  /* border-bottom: 20px solid transparent; */
-}
-/* Add an overlay gradient at top of text scroll off */
-.nd-notes__scrollbox::after {
-  content: ' ';
-  position: absolute;
-  top: var(--notes-padding-top);
-  width: 100%;
-  height: var(--notes-padding-top);
-  background: linear-gradient(
-    var(--color-surface),
-    var(--color-surface-transparent)
-  );
-}
 .nd-notes {
   min-height: 100%;
   --notes-font-size-base: 18px;
@@ -157,16 +123,13 @@ p {
   padding-left: 16px;
   color: var(--color-text-subtle);
 }
-
 .medium-toolbar-arrow-under:after {
   border-color: var(--color-surface-inverse) transparent transparent transparent;
   top: 40px;
 }
-
 .medium-toolbar-arrow-over:before {
   border-color: transparent transparent var(--color-surface-inverse) transparent;
 }
-
 .medium-editor-toolbar {
   background-color: var(--color-surface-inverse);
   border: none;
@@ -244,18 +207,15 @@ p {
 .medium-editor-toolbar-form .medium-editor-toolbar-close {
   margin-right: 16px;
 }
-
 .medium-editor-toolbar-anchor-preview {
   background: var(--color-surface-inverse);
   border-radius: 50px;
   padding: 5px 12px;
 }
-
 .medium-editor-anchor-preview a {
   color: var(--color-text-inverse);
   text-decoration: none;
 }
-
 .medium-editor-toolbar-actions li,
 .medium-editor-toolbar-actions button {
   border-radius: 50px;
