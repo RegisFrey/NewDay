@@ -29,8 +29,11 @@
                 margin: 0;
                 padding: 0;
             }
-            header h2 {
+            header h2, header nav, h3 {
                 color: #97a8ae;
+            }
+            header nav {
+                padding-top: 15px;
             }
             h2 {
                 padding-top: 24px;
@@ -74,6 +77,11 @@
 <h1 id="✨-new-day-✨">✨ New Day ✨</h1>
 <h2 id="a-minimal-new-tab-for-keeping-notes-and-staying-on-task">A minimal new tab for keeping notes and staying on task.</h2>
 <p>by <a href="http://regisfrey.com">Regis Frey</a></p>
+<nav>
+
+<p><a href="#privacy-policy">Privacy Policy</a> | <a href="#user-agreement">User Agreement</a> | <a href="https://github.com/sponsors/RegisFrey">Tip Jar</a></p>
+</nav>
+
 </header>
 
 <p><img src="./src/promo/NewDay-Screenshot.png" alt="Screenshot showing the time and 2 columns of todos and notes"></p>
@@ -83,36 +91,46 @@ and see upcoming calendar events
 all from your new tab page.</p>
 <div class="buttons">
 
-<!-- [Get it on the Chrome Store](https://example.com) -->
-
+<p><a href="https://chrome.google.com/webstore/detail/new-day/niklocfdniincmmjabhldodncchnndac">Get it on the Chrome Store</a></p>
 <p><a href="https://github.com/RegisFrey/NewDay">Check out the Source Code</a></p>
 </div>
 
 <h2 id="privacy-policy">Privacy Policy</h2>
-<p><strong>The &quot;New Day&quot; Chrome Extension keeps your data private to you. We don&#39;t share your data with 3rd parties because we don&#39;t have your data, you do.</strong></p>
-<p>Darkfire Studios (Regis Frey) is the developer of the New Day Chrome extension.</p>
+<h3 id="kinds-of-data">Kinds of Data</h3>
 <p>The New Day client contains 3 kinds of personal data:</p>
 <ol>
 <li>Todo items you create</li>
 <li>Text you write in the notes area</li>
-<li>Synced upcoming calendar events to be shown in the &quot;Today&quot; column. <em>Requires optional read-only permission to access your Google Calendar.</em></li>
+<li>Upcoming calendar events (synced from Google Calendar)
+<br/>to be shown in the &quot;Today&quot; column.
+<br/><em>Requires optional read-only permission to access your Google Calendar.</em></li>
 </ol>
+<h3 id="storage">Storage</h3>
 <p>New Day stores all of these
 (notes, todo items, calendar events)<br/>
-<strong>on your personal computer</strong>
-or <strong>in your Google Account</strong>
+<strong>on your personal computer</strong> or <strong>in your Google Account</strong><br/>
 ( <a href="https://support.google.com/chrome/answer/185277">if Chrome sync is enabled</a> ).</p>
 <blockquote>
 <p>For the technically minded this is stored via <a href="https://developer.chrome.com/docs/extensions/reference/storage/">chrome.storage</a> see the <a href="https://github.com/RegisFrey/NewDay/blob/main/src/helpers/storage.ts">code in storage.ts</a></p>
 </blockquote>
-<p>Darkfire Studios (Regis Frey) can&#39;t see or access that data at all.</p>
+<h3 id="usage">Usage</h3>
+<p>This data (notes, todo items, calendar events) is used only for the purpose of 
+providing the features of the extension, that is:</p>
+<ol>
+<li>To display &amp; persist your todos.</li>
+<li>To display &amp; persist your notes.</li>
+<li>To show your upcoming calendar events.</li>
+</ol>
+<p>New Day&#39;s use of information received from Google APIs
+(specifically Google Calendar events) adheres to the
+<a href="https://developers.google.com/terms/api-services-user-data-policy#additional_requirements_for_specific_api_scopes">Google API Services User Data Policy</a>,
+including the Limited Use requirements.</p>
+<h3 id="transfer">Transfer</h3>
 <p>We don&#39;t send anything back to our servers<br/>
 (we don&#39;t even have servers to send anything back to).</p>
-<p>We don&#39;t share information with any advertisers or 3rd parties<br/>
-(we don&#39;t have any data to share).</p>
-<p>New Day&#39;s use of information received from Google APIs (Calendar Events)
-adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy#additional_requirements_for_specific_api_scopes">Google API Services User Data Policy</a>,
-including the Limited Use requirements.</p>
+<h3 id="sharing">Sharing</h3>
+<p>We don&#39;t share any information with advertisers or 3rd parties<br/>
+(since we don&#39;t collect your data, we don&#39;t have any data to share).</p>
 <h2 id="user-agreement">User Agreement</h2>
 <p>By installing and using this extension you agree to this user agreement:</p>
 <blockquote>

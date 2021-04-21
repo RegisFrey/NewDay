@@ -6,6 +6,12 @@
 
 by [Regis Frey](http://regisfrey.com)
 
+<nav>
+
+[Privacy Policy](#privacy-policy) | [User Agreement](#user-agreement) | [Tip Jar](https://github.com/sponsors/RegisFrey)
+
+</nav>
+
 </header>
 
 ![Screenshot showing the time and 2 columns of todos and notes](./src/promo/NewDay-Screenshot.png)
@@ -17,41 +23,49 @@ all from your new tab page.
 
 <div class="buttons">
 
-<!-- [Get it on the Chrome Store](https://example.com) -->
+[Get it on the Chrome Store](https://chrome.google.com/webstore/detail/new-day/niklocfdniincmmjabhldodncchnndac)
 
 [Check out the Source Code](https://github.com/RegisFrey/NewDay)
 
 </div>
 
 ## Privacy Policy
-**The "New Day" Chrome Extension keeps your data private to you. We don't share your data with 3rd parties because we don't have your data, you do.**
 
-Darkfire Studios (Regis Frey) is the developer of the New Day Chrome extension.
-
+### Kinds of Data
 The New Day client contains 3 kinds of personal data:
 1. Todo items you create
 2. Text you write in the notes area
-3. Synced upcoming calendar events to be shown in the "Today" column. *Requires optional read-only permission to access your Google Calendar.*
+3. Upcoming calendar events (synced from Google Calendar)
+   <br/>to be shown in the "Today" column.
+   <br/>*Requires optional read-only permission to access your Google Calendar.*
 
+### Storage
 New Day stores all of these
 (notes, todo items, calendar events)<br/>
-**on your personal computer**
-or **in your Google Account**
+**on your personal computer** or **in your Google Account**<br/>
 ( [if Chrome sync is enabled](https://support.google.com/chrome/answer/185277) ).
 
 > For the technically minded this is stored via [chrome.storage](https://developer.chrome.com/docs/extensions/reference/storage/) see the [code in storage.ts](https://github.com/RegisFrey/NewDay/blob/main/src/helpers/storage.ts)
 
-Darkfire Studios (Regis Frey) can't see or access that data at all.
+### Usage
+This data (notes, todo items, calendar events) is used only for the purpose of 
+providing the features of the extension, that is:
+1. To display & persist your todos.
+2. To display & persist your notes.
+3. To show your upcoming calendar events.
 
+New Day's use of information received from Google APIs
+(specifically Google Calendar events) adheres to the
+[Google API Services User Data Policy](https://developers.google.com/terms/api-services-user-data-policy#additional_requirements_for_specific_api_scopes),
+including the Limited Use requirements.
+
+### Transfer
 We don't send anything back to our servers<br/>
 (we don't even have servers to send anything back to).
 
-We don't share information with any advertisers or 3rd parties<br/>
-(we don't have any data to share).
-
-New Day's use of information received from Google APIs (Calendar Events)
-adheres to the [Google API Services User Data Policy](https://developers.google.com/terms/api-services-user-data-policy#additional_requirements_for_specific_api_scopes),
-including the Limited Use requirements.
+### Sharing
+We don't share any information with advertisers or 3rd parties<br/>
+(since we don't collect your data, we don't have any data to share).
 
 ## User Agreement
 
