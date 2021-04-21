@@ -87,6 +87,10 @@
       </div>
 
       <div class="nd-options-details">
+        <a href="https://regisfrey.github.io/NewDay/#privacy-policy">Privacy Policy</a>
+        &amp;
+        <a href="https://regisfrey.github.io/NewDay/#user-agreement">User Agreement</a>
+        <br/><br/>
         Icons from <a href="https://feathericons.com/">Feather</a> under the MIT license.
       </div>
     
